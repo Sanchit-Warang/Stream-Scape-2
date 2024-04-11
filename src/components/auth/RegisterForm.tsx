@@ -5,6 +5,7 @@ import { RegisterSchema } from '@/schema/auth'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { register } from '@/server/actions/auth'
+import Socials from './Socials'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
@@ -68,6 +69,7 @@ const RegisterForm = () => {
           Register
         </Button>
       </div>{' '}
+      <Socials />
       <Link href={'/login'}>
         <p className=" mt-4 text-center hover:text-primary cursor-pointer">
           {"ALready have an account login"}

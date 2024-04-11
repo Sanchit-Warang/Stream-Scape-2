@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { login } from '@/server/actions/auth'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
+import Socials from '@/components/auth/Socials'
 
 type FormFields = z.infer<typeof LoginSchema>
 
@@ -59,6 +60,7 @@ const LoginForm = () => {
           Login
         </Button>
       </div>{' '}
+      <Socials />
       <Link href={'/register'}>
         <p className=" mt-4 text-center hover:text-primary cursor-pointer">
           {"Don't have an accout register"}
