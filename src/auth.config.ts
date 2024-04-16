@@ -5,9 +5,10 @@ import type { NextAuthConfig } from 'next-auth'
 import bcrypt from 'bcryptjs'
 
 import { LoginSchema } from './schema/auth'
-import { getUserByEmail } from './data/user'
+import { getUserByEmail } from './server/data/user'
 
 export default {
+  trustHost: true,
   providers: [
     Github({
       clientId: process.env.GITHUB_CLIENT_ID,

@@ -16,11 +16,11 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark !scroll-smooth">
       <body className={inter.className}>
         <SCProviders>
           <Navigation />
-          <div className="m-16">{children}</div>
+          <div className="m-7 md:m-16">{children}</div>
         </SCProviders>
       </body>
     </html>

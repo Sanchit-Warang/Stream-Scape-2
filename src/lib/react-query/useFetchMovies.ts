@@ -1,8 +1,8 @@
-import { fetchMovies } from "@/server/actions/fetchMovies";
+import { fetchTrendingMoviesDay } from '@/server/actions/tmdb'
 
 export const useFetchMovies = () => {
   return {
-    queryKey: ["movies"],
-    queryFn: async () => fetchMovies(),
-  };
-};
+    queryKey: ['movies'],
+    queryFn: async () => fetchTrendingMoviesDay(),
+  }
+}

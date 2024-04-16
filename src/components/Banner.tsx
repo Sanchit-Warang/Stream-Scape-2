@@ -2,6 +2,9 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { Movie } from '@/types'
+import { cn } from '@/utils/tw'
+import { useState } from 'react'
+import { Button } from '@nextui-org/react'
 
 type BannerProps = {
   movies: Movie[]
@@ -9,16 +12,23 @@ type BannerProps = {
 
 const Banner = ({ movies }: BannerProps) => {
   const [emblaRef1] = useEmblaCarousel({ loop: true, watchDrag: false }, [
-    Autoplay(),
+    Autoplay({
+      delay: 8000,
+    }),
   ])
   const [emblaRef2] = useEmblaCarousel({ loop: true, watchDrag: false }, [
-    Autoplay(),
+    Autoplay({
+      delay: 8000,
+    }),
   ])
+  const [show, setShow] = useState(true)
   return (
     <>
       <div
-        className="h-[100vh] w-full absolute top-0 left-0 -z-50  
-       "
+        className={cn(
+          'h-[100vh] w-full absolute top-0 left-0 -z-50',
+          show ? '' : 'hidden'
+        )}
       >
         <div className="overflow-hidden h-full" ref={emblaRef1}>
           <div className="flex h-full">
@@ -38,7 +48,10 @@ const Banner = ({ movies }: BannerProps) => {
         </div>
       </div>
       <div className="banner-gradient h-[100vh] w-full absolute top-0 left-0 -z-30"></div>
-      <div className="overflow-hidden" ref={emblaRef2}>
+      <div
+        className={cn('overflow-hidden', show ? '' : 'hidden')}
+        ref={emblaRef2}
+      >
         <div className="flex">
           {movies.map((movie) => (
             <div
@@ -50,6 +63,7 @@ const Banner = ({ movies }: BannerProps) => {
           ))}
         </div>
       </div>
+      <Button onClick={() => setShow(!show)}>Show</Button>
     </>
   )
 }

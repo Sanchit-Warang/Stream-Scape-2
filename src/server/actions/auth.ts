@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { LoginSchema, RegisterSchema } from '@/schema/auth'
 import bcrypt from 'bcryptjs'
 import { db } from '@/lib/db'
-import { getUserByEmail } from '@/data/user'
+import { getUserByEmail } from '@/server/data/user'
 import { signIn, signOut } from '@/auth'
 import { DEFAULT_LOGIN_REDIECT } from '@/routes'
 import { AuthError } from 'next-auth'
@@ -60,7 +60,6 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
       password: hashedPassword,
     },
   })
-
   return { success: 'Registered' }
 }
 

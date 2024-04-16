@@ -8,10 +8,12 @@ import { register } from '@/server/actions/auth'
 import Socials from './Socials'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 type FormFields = z.infer<typeof RegisterSchema>
 
 const RegisterForm = () => {
+  const router = useRouter()
   const form = useForm<FormFields>({
     defaultValues: {
       email: '',
@@ -27,6 +29,7 @@ const RegisterForm = () => {
     }
     if (result.success) {
       toast.success(result.success)
+      router.replace('/login')
     }
   }
 

@@ -12,16 +12,26 @@
 }
 
 .embla {
-  overflow-x: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 .embla__container {
+  height: 12rem;
   display: flex;
+  align-items: center;
 }
 .embla__slide {
   flex: 0 0 17rem;
+  /* margin-right: 1rem; */
   min-width: 0;
+  max-width: 100%;
 }
 
 .banner-gradient {
   background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

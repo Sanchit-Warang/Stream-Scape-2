@@ -7,3 +7,11 @@ export const fetchTrendingMoviesDay = async () => {
   )
   return (await res.json()) as MediaData<Movie>
 }
+
+export const fetchTopRatedMovies = async () => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.TMDB_API_KEY}`,
+    { next: { tags: ['top rated', 'movie'], revalidate: 60 * 5 } }
+  )
+  return (await res.json()) as MediaData<Movie>
+}
