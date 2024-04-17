@@ -32,19 +32,19 @@ const Navigation = () => {
   return (
     <Navbar
       position="static"
-      shouldHideOnScroll
+      // shouldHideOnScroll
       isBordered
-      className={`sticky top-0 left-0 z-10 ${
-        scroll.y < 100 ? 'bg-transperant' : ''
+      className={`sticky top-0 left-0 z-50 h-[7vh] bg-opacity-30 bg-black ${
+        scroll.y < 10 ? 'border-0 backdrop-blur-none' : 'bg-transperant'
       }`}
     >
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>
       <NavbarBrand>
-        <p className="font-bold text-inherit">ACME</p>
+        <p className="font-semibold text-inherit">StreamScape</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>Features</NavbarItem>
         <NavbarItem isActive>Customers</NavbarItem>
         <NavbarItem>Integrations</NavbarItem>
@@ -85,7 +85,7 @@ const Navigation = () => {
             </NavbarMenuItem>
           ))}
         </NavbarMenu>
-      </NavbarContent>
+      </NavbarContent> */}
     </Navbar>
   )
 }

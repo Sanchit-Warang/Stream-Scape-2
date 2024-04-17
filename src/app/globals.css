@@ -29,9 +29,27 @@
 }
 
 .banner-gradient {
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4));
 }
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Default font size */
+html {
+  font-size: 16px;
+}
+
+/* Media queries for different screen sizes */
+@media screen and (max-width: 767px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  html {
+    font-size: 16px;
+  }
 }

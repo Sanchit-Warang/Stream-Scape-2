@@ -4,7 +4,9 @@ import Autoplay from 'embla-carousel-autoplay'
 import { Movie } from '@/types'
 import { cn } from '@/utils/tw'
 import { useState } from 'react'
+import PlayButton from './ui/PlayButton'
 import { Button } from '@nextui-org/react'
+import InfoButton from './ui/InfoButton'
 
 type BannerProps = {
   movies: Movie[]
@@ -58,12 +60,24 @@ const Banner = ({ movies }: BannerProps) => {
               key={movie.id}
               className="flex-grow-0 flex-shrink-0 w-full min-w-0"
             >
-              {movie.title}
+              <div className="md:w-[50%] rounded-lg space-y-3">
+                <div className="font-bold text-3xl ">{movie.title}</div>
+                <div className="flex items-center gap-2 text-sm ">
+                  <p className=" font-semibold text-green-500 ">
+                    {movie.vote_average} Average Votes
+                  </p>
+                  <span>{movie.release_date}</span>
+                </div>
+                <div className="text-sm">{movie.overview}</div>
+                <div className="flex gap-3">
+                  <PlayButton />
+                  <InfoButton />
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <Button onClick={() => setShow(!show)}>Show</Button>
     </>
   )
 }

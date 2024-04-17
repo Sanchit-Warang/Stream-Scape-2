@@ -112,3 +112,8 @@ interface CommonMediaProperties {
     ProductionCountry,
     SpokenLanguage,
   }
+
+
+export type PaginatedParameters = {
+  pageParam: number
+}
