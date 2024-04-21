@@ -63,12 +63,12 @@ const Banner = ({ movies }: BannerProps) => {
               <div className="md:w-[50%] rounded-lg space-y-3">
                 <div className="font-bold text-3xl ">{movie.title}</div>
                 <div className="flex items-center gap-2 text-sm ">
-                  <p className=" font-semibold text-green-500 ">
+                  <p className=" font-semibold text-success ">
                     {movie.vote_average} Average Votes
                   </p>
                   <span>{movie.release_date}</span>
                 </div>
-                <div className="text-sm">{movie.overview}</div>
+                <div className="text-sm truncate-3-lines">{movie.overview}</div>
                 <div className="flex gap-3">
                   <PlayButton />
                   <InfoButton />

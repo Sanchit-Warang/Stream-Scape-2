@@ -1,14 +1,8 @@
 'use client'
 import { MediaData, Movie, TVShow } from '@/types'
+import CarouselCard from '../CarouselCard'
 import { motion } from 'framer-motion'
-import {
-  Card,
-  Image,
-  CardFooter,
-  Badge,
-  Button,
-  CircularProgress,
-} from '@nextui-org/react'
+import { Button, CircularProgress } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useRef, useEffect } from 'react'
@@ -116,29 +110,15 @@ const Carousel = ({
       >
         {data.pages.map((page) =>
           page.results.map((entry) => (
-            <motion.div
-              className="item min-w-[17rem]"
-              key={entry.id}
-              whileHover={{ scale: 1.15, zIndex: 20 }}
-            >
-              <Card isPressable className="overflow-visible" isFooterBlurred>
-                <Badge content={entry.vote_average.toFixed(1)} color="primary">
-                  <Image
-                    isBlurred
-                    isZoomed
-                    src={`https://image.tmdb.org/t/p/w1280${entry.backdrop_path}`}
-                    alt={`Banner Image of ${
-                      'title' in entry ? 'TV show' : 'Movie'
-                    }  : ${'title' in entry ? entry.title : entry.name}`}
-                  />
-                </Badge>
-                <CardFooter className="justify-center bg-black/40 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small  z-10">
-                  <p className="text-xs font-semibold text-white">
-                    {'title' in entry ? entry.title : entry.name}
-                  </p>
-                </CardFooter>
-              </Card>
-            </motion.div>
+            <>
+              <motion.div
+                className="item "
+                key={entry.id}
+                whileHover={{ scale: 1.15, zIndex: 20 }}
+              >
+                <CarouselCard entry={entry} />
+              </motion.div>
+            </>
           ))
         )}
         <div

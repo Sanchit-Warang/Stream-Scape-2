@@ -16,8 +16,11 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark !scroll-smooth">
-      <body className={inter.className}>
+    <html
+      lang="en"
+      className="dark !scroll-smooth scrollbar-track-primary-200 scrollbar-thin scrollbar-thumb-primary"
+    >
+      <body className={`${inter.className} scrollbar-track-primary`}>
         <SCProviders>
           <Navigation />
           <div className="m-7 md:m-16">{children}</div>

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, Divider } from '@nextui-org/react'
+import { Card, CardHeader, CardBody } from '@nextui-org/card'
+import { Divider } from '@nextui-org/divider'
 import LoginForm from '@/components/auth/LoginForm'
 
 const LoginPage = () => {
