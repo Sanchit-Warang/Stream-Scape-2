@@ -5,8 +5,9 @@ import { Movie } from '@/types'
 import { cn } from '@/utils/tw'
 import { useState } from 'react'
 import PlayButton from './ui/PlayButton'
-import { Button } from '@nextui-org/react'
+import { useMediaQuery } from '@mantine/hooks'
 import InfoButton from './ui/InfoButton'
+import Image from 'next/image'
 
 type BannerProps = {
   movies: Movie[]
@@ -23,7 +24,8 @@ const Banner = ({ movies }: BannerProps) => {
       delay: 8000,
     }),
   ])
-  const [show, setShow] = useState(true)
+  const [show] = useState(true)
+  const matches = useMediaQuery('(max-width: 640px)')
   return (
     <>
       <div
@@ -39,10 +41,15 @@ const Banner = ({ movies }: BannerProps) => {
                 key={movie.id}
                 className="flex-grow-0 flex-shrink-0 w-full min-w-0"
               >
-                <img
-                  src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                <Image
+                  // src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                  src={`https://image.tmdb.org/t/p/original${
+                    matches ? movie.poster_path : movie.backdrop_path
+                  }`}
                   alt={`Banner Image of ${movie.title}`}
                   className="w-full h-full object-cover"
+                  width={1920}
+                  height={1080}
                 />
               </div>
             ))}
@@ -70,8 +77,8 @@ const Banner = ({ movies }: BannerProps) => {
                 </div>
                 <div className="text-sm truncate-3-lines">{movie.overview}</div>
                 <div className="flex gap-3">
-                  <PlayButton />
-                  <InfoButton />
+                  <PlayButton size="sm" />
+                  <InfoButton size="sm" />
                 </div>
               </div>
             </div>

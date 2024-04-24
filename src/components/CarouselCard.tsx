@@ -1,13 +1,13 @@
 import { Movie, TVShow } from '@/types'
 import { Card, Image, Badge, CardFooter } from '@nextui-org/react'
+// import NextImage from 'next/image'
 import Trailer from './Trailer'
+import PlayButton from './ui/PlayButton'
 
 import {
   Modal,
   ModalContent,
   ModalBody,
-  ModalFooter,
-  Button,
   useDisclosure,
 } from '@nextui-org/react'
 
@@ -28,8 +28,11 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
       >
         <Badge content={entry.vote_average.toFixed(1)} color="primary">
           <Image
+            // as={NextImage}
             isBlurred
             isZoomed
+            // width={17 * 16}
+            // height={9.5 * 16}
             src={`https://image.tmdb.org/t/p/w780${entry.backdrop_path}`}
             alt={`Banner Image of ${
               'title' in entry ? 'TV show' : 'Movie'
@@ -50,7 +53,7 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
         onOpenChange={onOpenChange}
         closeButton={<></>}
       >
-        <ModalContent className="p-0">
+        <ModalContent className="p-0 bg-background">
           {(onClose) => (
             <>
               <ModalBody className="p-0">
@@ -61,16 +64,30 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
                     type={'title' in entry ? 'movie' : 'tv'}
                   />
                 )}
-                <p className="p-3">{entry.overview}</p>
+                <div className="p-3 space-y-3">
+                  <p className='text-2xl font-bold'>{'title' in entry ? entry.title : entry.name}</p>
+                  <div className="flex items-center gap-2 text-sm ">
+                    <p className=" font-semibold text-success ">
+                      {entry.vote_average} Average Votes
+                    </p>
+                    <span>
+                      {'release_date' in entry
+                        ? entry.release_date
+                        : entry.first_air_date}
+                    </span>
+                  </div>
+                  <p className="text-xs">{entry.overview}</p>
+                  <PlayButton size='sm' />
+                </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
-              </ModalFooter>
+              {/* <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button color="primary" onPress={onClose}>
+                    Action
+                  </Button>
+                </ModalFooter> */}
             </>
           )}
         </ModalContent>

@@ -24,7 +24,7 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
   const [muted, setMuted] = useState(false)
   if (trailer.isLoading) {
     return (
-      <div className="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center w-full h-[350px]">
         <CircularProgress />
       </div>
     )
@@ -32,20 +32,23 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
     return (
       <div className="relative">
         <CloseButton
-          className="absolute top-2 right-2 z-10"
+          className="absolute top-2 right-2 z-10 rounded-full"
+          size='sm'
           onClick={onClose}
         />
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${trailer.data.key}`}
-          className="w-full"
+          className="w-full relative -z-20 h-[300px]"
           width={'100%'}
           playing={playing}
           controls={false}
           muted={muted}
         />
+        <div className="absolute top-0 -z-10 bg-gradient-to-t from-background to-background/20 w-full h-[100%]"></div>
         <div className="p-2 flex w-full gap-2 justify-between absolute bottom-0 z-10">
           <Button
             color="primary"
+            size='sm'
             variant="shadow"
             onClick={() => setPlaying(!playing)}
           >
@@ -61,8 +64,10 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
           </Button>
           <Button
             onClick={() => setMuted(!muted)}
+            className='rounded-full'
+            size='sm'
             variant="shadow"
-            color="primary"
+            // color="primary"
             isIconOnly
           >
             {muted ? (
