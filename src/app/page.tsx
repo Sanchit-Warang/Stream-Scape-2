@@ -6,7 +6,7 @@ import {
   fetchTopRatedMovies,
   fetchTrendingTVDay,
   fetchTopRatedTVShows,
-} from '@/server/actions/tmdb'
+} from '@/server/data/tmdb'
 
 export default async function Home() {
   const trendingMovies = await fetchTrendingMoviesDay()
@@ -14,7 +14,7 @@ export default async function Home() {
   const trendingTVShows = await fetchTrendingTVDay()
   const topRatedTVShows = await fetchTopRatedTVShows()
   return (
-    <>
+    <div className="m-7 md:m-16">
       <Banner movies={shuffle([...trendingMovies.results])} />
       <div className="space-y-3">
         <div>
@@ -50,6 +50,6 @@ export default async function Home() {
           />
         </div>
       </div>
-    </>
+    </div>
   )
 }

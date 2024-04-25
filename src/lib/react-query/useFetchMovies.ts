@@ -1,4 +1,4 @@
-import { fetchTrendingMoviesDay } from '@/server/actions/tmdb'
+import { fetchTrendingMoviesDay } from '@/server/data/tmdb'
 
 export const useFetchMovies = () => {
   return {

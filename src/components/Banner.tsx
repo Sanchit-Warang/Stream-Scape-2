@@ -8,6 +8,13 @@ import PlayButton from './ui/PlayButton'
 import { useMediaQuery } from '@mantine/hooks'
 import InfoButton from './ui/InfoButton'
 import Image from 'next/image'
+import Trailer from './Trailer'
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+} from '@nextui-org/react'
 
 type BannerProps = {
   movies: Movie[]
@@ -63,25 +70,7 @@ const Banner = ({ movies }: BannerProps) => {
       >
         <div className="flex">
           {movies.map((movie) => (
-            <div
-              key={movie.id}
-              className="flex-grow-0 flex-shrink-0 w-full min-w-0"
-            >
-              <div className="md:w-[50%] rounded-lg space-y-3">
-                <div className="font-bold text-3xl ">{movie.title}</div>
-                <div className="flex items-center gap-2 text-sm ">
-                  <p className=" font-semibold text-success ">
-                    {movie.vote_average} Average Votes
-                  </p>
-                  <span>{movie.release_date}</span>
-                </div>
-                <div className="text-sm truncate-3-lines">{movie.overview}</div>
-                <div className="flex gap-3">
-                  <PlayButton size="sm" />
-                  <InfoButton size="sm" />
-                </div>
-              </div>
-            </div>
+            <MovieDataBanner key={movie.id} movie={movie} />
           ))}
         </div>
       </div>
@@ -90,3 +79,73 @@ const Banner = ({ movies }: BannerProps) => {
 }
 
 export default Banner
+
+type MovieDataBanner = {
+  movie: Movie
+  key: number
+}
+
+export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  return (
+    <>
+      <div className="flex-grow-0 flex-shrink-0 w-full min-w-0">
+        <div className="md:w-[50%] rounded-lg space-y-3 mb-3">
+          <div className="font-bold text-3xl ">{movie.title}</div>
+          <div className="flex items-center gap-2 text-sm ">
+            <p className=" font-semibold text-success ">
+              {movie.vote_average} Average Votes
+            </p>
+            <span>{movie.release_date}</span>
+          </div>
+          <div className="text-sm">
+            <p className="line-clamp-3">{movie.overview}</p>
+          </div>
+          <div className="flex gap-3">
+            <PlayButton size="sm" />
+            <InfoButton onClick={onOpen} size="sm" />
+          </div>
+        </div>
+      </div>
+      <Modal
+        className="p-0"
+        backdrop="blur"
+        size="3xl"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        closeButton={<></>}
+      >
+        <ModalContent className="p-0 bg-background">
+          {(onClose) => (
+            <>
+              <ModalBody className="p-0">
+                {isOpen && (
+                  <Trailer
+                    onClose={onClose}
+                    id={movie.id}
+                    type={'title' in movie ? 'movie' : 'tv'}
+                  />
+                )}
+                <div className="p-3 space-y-3">
+                  <p className="text-2xl font-bold">
+                    {'title' in movie ? movie.title : ''}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm ">
+                    <p className=" font-semibold text-success ">
+                      {movie.vote_average} Average Votes
+                    </p>
+                    <span>
+                      {'release_date' in movie ? movie.release_date : ''}
+                    </span>
+                  </div>
+                  <p className="text-xs">{movie.overview}</p>
+                  <PlayButton size="sm" />
+                </div>
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}

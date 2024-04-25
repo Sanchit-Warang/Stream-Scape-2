@@ -5,14 +5,14 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenu,
+  Avatar,
   NavbarMenuItem,
   NavbarMenuToggle,
-  Link,
   Button,
 } from '@nextui-org/react'
 import { useWindowScroll } from '@mantine/hooks'
+import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { Avatar } from '@nextui-org/react'
 
 const Navigation = () => {
   const [scroll] = useWindowScroll()
@@ -42,7 +42,9 @@ const Navigation = () => {
         <NavbarMenuToggle />
       </NavbarContent>
       <NavbarBrand>
-        <p className="font-semibold text-inherit">StreamScape</p>
+        <Link href={'/'}>
+          <p className="font-semibold text-inherit">StreamScape</p>
+        </Link>
       </NavbarBrand>
       {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>Features</NavbarItem>

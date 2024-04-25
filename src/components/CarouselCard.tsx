@@ -1,15 +1,17 @@
 import { Movie, TVShow } from '@/types'
-import { Card, Image, Badge, CardFooter } from '@nextui-org/react'
-// import NextImage from 'next/image'
-import Trailer from './Trailer'
-import PlayButton from './ui/PlayButton'
-
 import {
+  Card,
+  Image,
+  Badge,
+  CardFooter,
   Modal,
   ModalContent,
   ModalBody,
   useDisclosure,
 } from '@nextui-org/react'
+// import NextImage from 'next/image'
+import Trailer from './Trailer'
+import PlayButton from './ui/PlayButton'
 
 type CarousalCardProps = {
   entry: Movie | TVShow
@@ -65,7 +67,9 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
                   />
                 )}
                 <div className="p-3 space-y-3">
-                  <p className='text-2xl font-bold'>{'title' in entry ? entry.title : entry.name}</p>
+                  <p className="text-2xl font-bold">
+                    {'title' in entry ? entry.title : entry.name}
+                  </p>
                   <div className="flex items-center gap-2 text-sm ">
                     <p className=" font-semibold text-success ">
                       {entry.vote_average} Average Votes
@@ -77,7 +81,7 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
                     </span>
                   </div>
                   <p className="text-xs">{entry.overview}</p>
-                  <PlayButton size='sm' />
+                  <PlayButton to={`/movie/${entry.id}`} size="sm" />
                 </div>
               </ModalBody>
               {/* <ModalFooter>

@@ -44,7 +44,7 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
           controls={false}
           muted={muted}
         />
-        <div className="absolute top-0 -z-10 bg-gradient-to-t from-background to-background/20 w-full h-[100%]"></div>
+        <div className="absolute top-0 -z-10 bg-gradient-to-t from-background to-background/0 w-full h-[100%]"></div>
         <div className="p-2 flex w-full gap-2 justify-between absolute bottom-0 z-10">
           <Button
             color="primary"

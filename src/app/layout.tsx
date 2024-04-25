@@ -23,7 +23,7 @@ export default async function RootLayout({
       <body className={`${inter.className} scrollbar-track-primary`}>
         <SCProviders>
           <Navigation />
-          <div className="m-7 md:m-16">{children}</div>
+          {children}
         </SCProviders>
       </body>
     </html>
