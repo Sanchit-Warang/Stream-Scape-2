@@ -9,9 +9,36 @@ const config: Config = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'copy-light': 'rgba(var(--copy-light))',
+        'copy-lighter': 'rgba(var(--copy-lighter))',
+        temp: 'rgba(var(--card-background))',
+        'card-background': 'rgba(var(--card-background))',
+      },
+    },
   },
   darkMode: 'class',
-  plugins: [nextui(), require('tailwind-scrollbar')],
+  plugins: [
+    nextui({
+      themes: {
+        dark: {
+          colors: {
+            background: '#15191e',
+            primary: {
+              DEFAULT: '#006de9',
+              foreground: '#e9f3ff',
+            },
+            secondary: {
+              DEFAULT: '#e900e1',
+              foreground: '#ffe9fe',
+            },
+            foreground: '#fbfbfc',
+          },
+        },
+      },
+    }),
+    require('tailwind-scrollbar'),
+  ],
 }
 export default config

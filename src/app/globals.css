@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.dark {
+  --card-background: 32, 38, 45;
+  --copy-light: 210, 216, 223;
+  --copy-lighter: 150, 165, 181;
+}
+
 * {
   margin: 0;
   padding: 0;

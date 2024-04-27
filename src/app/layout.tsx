@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className="dark !scroll-smooth scrollbar-track-primary-200 scrollbar-thin scrollbar-thumb-primary"
+      className="dark text-foreground bg-background !scroll-smooth scrollbar-track-primary-200 scrollbar-thin scrollbar-thumb-primary"
     >
       <body className={`${inter.className} scrollbar-track-primary`}>
         <SCProviders>

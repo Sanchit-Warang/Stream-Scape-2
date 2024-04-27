@@ -28,7 +28,7 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
         className="overflow-visible min-w-[17rem]"
         isFooterBlurred
       >
-        <Badge content={entry.vote_average.toFixed(1)} color="primary">
+        <Badge content={entry.vote_average.toFixed(1)} color="warning" variant='shadow'>
           <Image
             // as={NextImage}
             isBlurred
@@ -55,7 +55,7 @@ const CarouselCard = ({ entry }: CarousalCardProps) => {
         onOpenChange={onOpenChange}
         closeButton={<></>}
       >
-        <ModalContent className="p-0 bg-background">
+        <ModalContent className="p-0 bg-temp">
           {(onClose) => (
             <>
               <ModalBody className="p-0">

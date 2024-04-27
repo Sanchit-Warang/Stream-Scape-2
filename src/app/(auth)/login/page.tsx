@@ -5,13 +5,13 @@ import LoginForm from '@/components/auth/LoginForm'
 
 const LoginPage = () => {
   return (
-    <Card className="w-full md:w-[30%]">
-      <CardHeader className="font-semibold text-xl">Login</CardHeader>
-      <Divider />
-      <CardBody>
-        <LoginForm />
-      </CardBody>
-    </Card>
+      <Card className="w-full md:w-[30%] bg-temp">
+        <CardHeader className="font-semibold text-xl">Login</CardHeader>
+        <Divider />
+        <CardBody>
+          <LoginForm />
+        </CardBody>
+      </Card>
   )
 }
 

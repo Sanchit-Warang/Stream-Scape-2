@@ -63,7 +63,7 @@ const Banner = ({ movies }: BannerProps) => {
           </div>
         </div>
       </div>
-      <div className="banner-gradient h-[100vh] w-full absolute top-0 left-0 -z-30"></div>
+      <div className="bg-gradient-to-t from-background to-background/40 h-[100vh] w-full absolute top-0 left-0 -z-30"></div>
       <div
         className={cn('overflow-hidden', show ? '' : 'hidden')}
         ref={emblaRef2}

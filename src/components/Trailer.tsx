@@ -33,7 +33,7 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
       <div className="relative">
         <CloseButton
           className="absolute top-2 right-2 z-10 rounded-full"
-          size='sm'
+          size="sm"
           onClick={onClose}
         />
         <ReactPlayer
@@ -44,11 +44,11 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
           controls={false}
           muted={muted}
         />
-        <div className="absolute top-0 -z-10 bg-gradient-to-t from-background to-background/0 w-full h-[100%]"></div>
+        <div className="absolute top-0 -z-10 bg-gradient-to-t from-temp to-temp/0 w-full h-[100%]"></div>
         <div className="p-2 flex w-full gap-2 justify-between absolute bottom-0 z-10">
           <Button
             color="primary"
-            size='sm'
+            size="sm"
             variant="shadow"
             onClick={() => setPlaying(!playing)}
           >
@@ -64,8 +64,8 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
           </Button>
           <Button
             onClick={() => setMuted(!muted)}
-            className='rounded-full'
-            size='sm'
+            className="rounded-full"
+            size="sm"
             variant="shadow"
             // color="primary"
             isIconOnly

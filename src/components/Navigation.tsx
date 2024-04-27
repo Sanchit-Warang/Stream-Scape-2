@@ -17,24 +17,12 @@ import { useSession } from 'next-auth/react'
 const Navigation = () => {
   const [scroll] = useWindowScroll()
   const session = useSession()
-  const menuItems = [
-    'Profile',
-    'Dashboard',
-    'Activity',
-    'Analytics',
-    'System',
-    'Deployments',
-    'My Settings',
-    'Team Settings',
-    'Help & Feedback',
-    'Log Out',
-  ]
   return (
     <Navbar
       position="static"
       // shouldHideOnScroll
       isBordered
-      className={`sticky top-0 left-0 z-50 h-[7vh] bg-opacity-30 bg-black ${
+      className={`sticky top-0 left-0 z-50 bg-opacity-30 bg-black ${
         scroll.y < 10 ? 'border-0 backdrop-blur-none' : 'bg-transperant'
       }`}
     >
@@ -43,51 +31,54 @@ const Navigation = () => {
       </NavbarContent>
       <NavbarBrand>
         <Link href={'/'}>
-          <p className="font-semibold text-inherit">StreamScape</p>
+          <p className="font-semibold text-inherit">
+            <img src="./logo1.png" className="w-[7rem]" alt="" />
+          </p>
         </Link>
       </NavbarBrand>
-      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>Features</NavbarItem>
-        <NavbarItem isActive>Customers</NavbarItem>
-        <NavbarItem>Integrations</NavbarItem>
-      </NavbarContent>
       <NavbarContent justify="end">
         {session.data?.user ? (
-          <NavbarItem>
-            {session.data?.user.name}
-            <Avatar src={session.data?.user.image ? session.data?.user.image : ''} />
+          <NavbarItem className='flex gap-3 items-center'>
+            <Avatar
+              isBordered
+              color="success"
+              src={session.data?.user.image ? session.data?.user.image : ''}
+            />
+            <p className='text-copy-light font-semibold'>{session.data?.user.name}</p>
           </NavbarItem>
         ) : (
           <>
-            <NavbarItem className="hidden lg:flex">Login</NavbarItem>
             <NavbarItem>
-              <Button color="primary" href="#" variant="flat">
-                Sign Up
+              <Button
+                as={Link}
+                color="secondary"
+                href="/login"
+                variant="shadow"
+              >
+                Login
               </Button>
             </NavbarItem>
           </>
         )}
         <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                className="w-full"
-                color={
-                  index === 2
-                    ? 'warning'
-                    : index === menuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-                }
-                href="#"
-                size="lg"
-              >
-                {item}
-              </Link>
-            </NavbarMenuItem>
-          ))}
+          <NavbarMenuItem>
+            <Link
+              className="w-full"
+              // color={
+              //   index === 2
+              //     ? 'warning'
+              //     : index === menuItems.length - 1
+              //     ? 'danger'
+              //     : 'foreground'
+              // }
+              href="#"
+              // size="lg"
+            >
+              Login
+            </Link>
+          </NavbarMenuItem>
         </NavbarMenu>
-      </NavbarContent> */}
+      </NavbarContent>
     </Navbar>
   )
 }
