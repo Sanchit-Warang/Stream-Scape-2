@@ -1,6 +1,6 @@
 'use client'
 import { MediaData, Movie, TVShow } from '@/types'
-import CarouselCard from '../CarouselCard'
+import CarouselCard from './CarouselCard'
 import { motion } from 'framer-motion'
 import { Button, CircularProgress } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

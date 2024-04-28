@@ -32,7 +32,7 @@ const Navigation = () => {
       <NavbarBrand>
         <Link href={'/'}>
           <p className="font-semibold text-inherit">
-            <img src="./logo1.png" className="w-[7rem]" alt="" />
+            <img src="/logo1.png" className="w-[7rem]" alt="" />
           </p>
         </Link>
       </NavbarBrand>

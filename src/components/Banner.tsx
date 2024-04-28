@@ -94,7 +94,7 @@ export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
           <div className="font-bold text-3xl ">{movie.title}</div>
           <div className="flex items-center gap-2 text-sm ">
             <p className=" font-semibold text-success ">
-              {movie.vote_average} Average Votes
+              {movie.vote_average.toFixed(1)} Average Votes
             </p>
             <span>{movie.release_date}</span>
           </div>

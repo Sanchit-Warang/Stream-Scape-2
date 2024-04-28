@@ -5,12 +5,12 @@ import { Card } from '@nextui-org/card'
 import VideoPlayer from '@/components/ui/VideoPlayer'
 import NextImage from 'next/image'
 
-const MoviePage = async ({ params }: { params: { movieid: string } }) => {
-  const movie = await fetchMovieById(+params.movieid)
+const MoviePage = async ({ params }: { params: { movieId: string } }) => {
+  const movie = await fetchMovieById(+params.movieId)
   return (
     <>
       <VideoPlayer
-        url={`/embed/movie/${params.movieid}`}
+        url={`/embed/movie/${params.movieId}`}
         backdrop_path={movie.backdrop_path}
         poster_path={movie.poster_path}
       />
@@ -34,15 +34,15 @@ const MoviePage = async ({ params }: { params: { movieid: string } }) => {
             </p>
             <span>{'release_date' in movie ? movie.release_date : ''}</span>
           </div>
-          <p className='text-copy-lighter'>{movie.overview}</p>
+          <p className="text-copy-lighter">{movie.overview}</p>
           <p>Tag Line: {movie.tagline}</p>
           <p>Runtime: {movie.runtime} minutes</p>
-          <p>
-            Language :{' '}
+          <div>
+            Language : {' '}
             <Chip color="warning" variant="shadow">
               {movie.original_language}
             </Chip>
-          </p>
+          </div>
         </Card>
       </div>
     </>

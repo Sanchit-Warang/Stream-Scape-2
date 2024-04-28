@@ -34,6 +34,7 @@ const Trailer = ({ id, onClose, type }: TrailerProps) => {
         <CloseButton
           className="absolute top-2 right-2 z-10 rounded-full"
           size="sm"
+          variant="shadow"
           onClick={onClose}
         />
         <ReactPlayer
