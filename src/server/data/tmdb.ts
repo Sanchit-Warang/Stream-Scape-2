@@ -47,3 +47,11 @@ export const fetchTVShowById = async (id: number) => {
   )
   return (await res.json()) as SingleTVShow
 }
+
+export const fetchQuickSearch = async (query: string) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_API_KEY}&query=${query}`,
+    { next: { tags: ['quicksearch', `${query}`], revalidate: 60 * 5 } }
+  )
+  return (await res.json()) as MediaData<Movie | TVShow>
+}
