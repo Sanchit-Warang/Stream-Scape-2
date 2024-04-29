@@ -11,6 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'borderr' : 'rgba(var(--borderr))',
         'copy-light': 'rgba(var(--copy-light))',
         'copy-lighter': 'rgba(var(--copy-lighter))',
         temp: 'rgba(var(--card-background))',

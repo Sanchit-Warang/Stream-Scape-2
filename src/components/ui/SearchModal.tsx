@@ -42,11 +42,11 @@ const SearchModal = ({ className, ...props }: SearchModalProps) => {
                   placeholder="Quick Search"
                   size="sm"
                   onChange={(e) => setQuery(e.target.value)}
-                  color="secondary"
+                  color="warning"
                   startContent={<FontAwesomeIcon icon={faSearch} />}
                 />
               </ModalHeader>
-              <ModalBody className="overflow-y-auto">
+              <ModalBody className="overflow-y-auto !scroll-smooth scrollbar-track-primary-200 scrollbar-thin scrollbar-thumb-primary">
                 {quickSearch.data ? (
                   <div className="space-y-3">
                     {quickSearch.data.results.map((entry) => (

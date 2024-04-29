@@ -29,6 +29,7 @@
     "framer-motion": "^11.0.3",
     "next": "^14.1.4",
     "next-auth": "^5.0.0-beta.16",
+    "posthog-js": "^1.130.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",

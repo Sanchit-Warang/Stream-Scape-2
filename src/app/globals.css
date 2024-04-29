@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 .dark {
+  --borderr: 53, 63, 75;
   --card-background: 32, 38, 45;
   --copy-light: 210, 216, 223;
   --copy-lighter: 150, 165, 181;
