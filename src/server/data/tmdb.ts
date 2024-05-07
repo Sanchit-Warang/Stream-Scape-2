@@ -1,5 +1,5 @@
 'use server'
-import { Movie, SingleMovie, SingleTVShow, MediaData, TVShow } from '@/types'
+import { Movie, SingleMovie, SingleTVShow, MediaData, TVShow, TVSeasonDeatail } from '@/types'
 export const fetchTrendingMoviesDay = async () => {
   const res = await fetch(
     `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_API_KEY}`,
@@ -54,4 +54,11 @@ export const fetchQuickSearch = async (query: string) => {
     { next: { tags: ['quicksearch', `${query}`], revalidate: 60 * 5 } }
   )
   return (await res.json()) as MediaData<Movie | TVShow>
+}
+
+export const fetchSeasonDetails = async (tvId: number, seasonNumber: number) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${process.env.TMDB_API_KEY}`
+  )
+  return (await res.json()) as TVSeasonDeatail
 }

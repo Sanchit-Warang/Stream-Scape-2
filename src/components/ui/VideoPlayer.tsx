@@ -26,12 +26,14 @@ const VideoPlayer = ({ url, backdrop_path, poster_path }: VideoPlayerProps) => {
             }}
           ></div>
           <div className="absolute top-0 z-10 bg-gradient-to-t from-background to-background/30 w-full h-full flex justify-center items-center">
-            <FontAwesomeIcon
-              onClick={() => setShowPlayer(true)}
-              icon={faPlay}
-              className="h-10 w-10"
-              beatFade
-            />
+            <div>
+              <FontAwesomeIcon
+                onClick={() => setShowPlayer(true)}
+                icon={faPlay}
+                className="h-10 w-10"
+                beatFade
+              />
+            </div>  
           </div>
         </div>
       ) : (

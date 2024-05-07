@@ -3,7 +3,6 @@ import Trailer from '../Trailer'
 import PlayButton from './PlayButton'
 import { cn } from '@/utils/tw'
 import { Movie, TVShow } from '@/types'
-import { title } from 'process'
 
 type TrailerModalProps = {
   entry: Movie | TVShow

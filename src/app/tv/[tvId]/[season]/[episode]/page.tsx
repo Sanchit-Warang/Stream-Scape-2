@@ -1,21 +1,39 @@
 import VideoPlayer from '@/components/ui/VideoPlayer'
-import { fetchTVShowById } from '@/server/data/tmdb'
+import { fetchTVShowById, fetchSeasonDetails } from '@/server/data/tmdb'
 import { Image } from '@nextui-org/image'
 import { Card } from '@nextui-org/card'
 import { Chip } from '@nextui-org/chip'
+import EpisodeListDrawer from '@/components/ui/EpisodeListDrawer'
 import NextImage from 'next/image'
+import { TVSeasonDeatail } from '@/types'
 const TVShowPage = async ({
   params,
 }: {
   params: { tvId: string; season: string; episode: string }
 }) => {
   const tv = await fetchTVShowById(+params.tvId)
+  const promiseList: Promise<TVSeasonDeatail>[] = []
+  // const seasonList: TVSeasonDeatail[] = []
+  for (let i = 1; i <= tv.number_of_seasons; i++) {
+    const data = fetchSeasonDetails(tv.id, i)
+    promiseList.push(data)
+  }
+
+  const seasonList = await Promise.all(promiseList)
+
   return (
     <div>
+      <EpisodeListDrawer name={tv.name} seasonList={seasonList} />
       <VideoPlayer
-        url={`/embed/tv/${params.tvId}`}
-        backdrop_path={tv.backdrop_path}
-        poster_path={tv.poster_path}
+        url={`/embed/tv/${params.tvId}/${params.season}/${params.episode}`}
+        backdrop_path={
+          seasonList[+params.season - 1].episodes[+params.episode - 1]
+            .still_path
+        }
+        poster_path={
+          seasonList[+params.season - 1].episodes[+params.episode - 1]
+            .still_path
+        }
       />
       <div className="m-10 flex gap-5 flex-wrap">
         <div className="w-[100%] md:w-[20%]">

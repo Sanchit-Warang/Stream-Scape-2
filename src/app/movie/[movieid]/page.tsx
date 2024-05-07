@@ -38,7 +38,7 @@ const MoviePage = async ({ params }: { params: { movieid: string } }) => {
           <p>Tag Line: {movie.tagline}</p>
           <p>Runtime: {movie.runtime} minutes</p>
           <div>
-            Language : {' '}
+            Language :{' '}
             <Chip color="warning" variant="shadow">
               {movie.original_language}
             </Chip>
