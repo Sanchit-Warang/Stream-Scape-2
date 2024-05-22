@@ -3,7 +3,7 @@ import { Movie, SingleMovie, SingleTVShow, MediaData, TVShow, TVSeasonDeatail } 
 export const fetchTrendingMoviesDay = async () => {
   const res = await fetch(
     `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['trending', 'movie', 'day'], revalidate: 60 * 60 * 24 } }
+    { next: { tags: ['trending', 'movie', 'day'], revalidate: 60 * 5 } }
   )
   return (await res.json()) as MediaData<Movie>
 }
@@ -11,7 +11,7 @@ export const fetchTrendingMoviesDay = async () => {
 export const fetchTrendingTVDay = async () => {
   const res = await fetch(
     `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['trending', 'tv', 'day'], revalidate: 60 * 60 * 24 } }
+    { next: { tags: ['trending', 'tv', 'day'], revalidate: 60 * 5 } }
   )
   return (await res.json()) as MediaData<Movie>
 }
@@ -35,7 +35,7 @@ export const fetchTopRatedTVShows = async () => {
 export const fetchMovieById = async (id: number) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['movie', `${id}`], revalidate: 60 * 60 * 24 } }
+    { next: { tags: ['movie', `${id}`], revalidate: 60 * 5 } }
   )
   return (await res.json()) as SingleMovie
 }
@@ -43,7 +43,7 @@ export const fetchMovieById = async (id: number) => {
 export const fetchTVShowById = async (id: number) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['tv', `${id}`], revalidate: 60 * 60 * 24 } }
+    { next: { tags: ['tv', `${id}`], revalidate: 60 * 5 } }
   )
   return (await res.json()) as SingleTVShow
 }
@@ -58,7 +58,8 @@ export const fetchQuickSearch = async (query: string) => {
 
 export const fetchSeasonDetails = async (tvId: number, seasonNumber: number) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${process.env.TMDB_API_KEY}`
+    `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${process.env.TMDB_API_KEY}`,
+    { next: { tags: ['seasondetails', `${tvId}`, `${seasonNumber}`], revalidate: 60 * 5 } }
   )
   return (await res.json()) as TVSeasonDeatail
 }
