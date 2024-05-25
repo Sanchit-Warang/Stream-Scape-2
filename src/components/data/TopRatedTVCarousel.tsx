@@ -1,14 +1,14 @@
-import { fetchTopRatedMovies } from '@/server/data/tmdb'
+import { fetchTopRatedTVShows } from '@/server/data/tmdb'
 import Carousel from '@/components/Carousel/Carousel'
 import SkeletonCarousel from '../ui/Skeletons/SkeletonCarousel'
 import { Suspense } from 'react'
 const DataTopRatedTVCarousel = async () => {
-    const topRatedMovies = await fetchTopRatedMovies()
+  const topRatedTVShows = await fetchTopRatedTVShows()
   return (
     <Carousel
-      category="top_rated_movie"
-      queryKey={['top rated', 'movie']}
-      moviesOrTVShowsMediaData={topRatedMovies}
+      category="top_rated_tv"
+      queryKey={['top rated', 'tv']}
+      moviesOrTVShowsMediaData={topRatedTVShows}
     />
   )
 }
@@ -16,7 +16,7 @@ const DataTopRatedTVCarousel = async () => {
 const TopRatedTVCarousel = () => {
   return (
     <div>
-      <p className="text-lg font-semibold">Top Rated Movies</p>
+      <p className="text-lg font-semibold">Top Rated TV Shows</p>
       <Suspense fallback={<SkeletonCarousel />}>
         <DataTopRatedTVCarousel />
       </Suspense>
