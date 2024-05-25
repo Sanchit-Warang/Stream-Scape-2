@@ -15,6 +15,7 @@ import {
   ModalBody,
   useDisclosure,
 } from '@nextui-org/react'
+import Link from 'next/link'
 
 type BannerProps = {
   movies: Movie[]
@@ -102,8 +103,8 @@ export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
             <p className="line-clamp-3">{movie.overview}</p>
           </div>
           <div className="flex gap-3">
-            <PlayButton size="sm" />
-            <InfoButton onClick={onOpen} size="sm" />
+            <PlayButton as={Link} size="sm"/>
+            {/* <InfoButton onClick={onOpen} size="sm" /> */}
           </div>
         </div>
       </div>
@@ -139,7 +140,7 @@ export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
                     </span>
                   </div>
                   <p className="text-xs">{movie.overview}</p>
-                  <PlayButton size="sm" />
+                  <PlayButton to={`/movie/${movie.id}`} size="sm" />
                 </div>
               </ModalBody>
             </>
