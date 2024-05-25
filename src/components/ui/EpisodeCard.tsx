@@ -2,30 +2,37 @@
 import { Card, CardProps, Image, Badge } from '@nextui-org/react'
 import { cn } from '@/utils/tw'
 import { Episode } from '@/types'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useRef, useEffect } from 'react'
+import { useParams } from 'next/navigation'
 type EpisodeCardProps = {
   episode: Episode
 } & CardProps
 
 const EpisodeCard = ({ className, episode, ...props }: EpisodeCardProps) => {
-  const router = useRouter()
+  const {episode: e} = useParams()
+  const episodeNumber = +e
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (episodeNumber === episode.episode_number && ref.current) {
+      ref.current.focus();
+    }
+  }, [episodeNumber, episode.episode_number]);
+
   return (
     // <Badge content={episode.vote_average.toFixed(1)} color="warning">
     <Link
       href={`/tv/${episode.show_id}/${episode.season_number}/${episode.episode_number}`}
     >
       <Card
+        ref={ref}
+        tabIndex={-1}
         {...props}
         className={cn(
           'min-w-[17rem] bg-background/70 overflow-visible',
           className
         )}
-        // onClick={() =>
-        //   router.replace(
-        //     `/tv/${episode.show_id}/${episode.season_number}/${episode.episode_number}`
-        //   )
-        // }
       >
         <Badge content={episode.vote_average.toFixed(1)} color="warning">
           <Image
