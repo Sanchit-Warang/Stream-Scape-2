@@ -1,14 +1,14 @@
-import { fetchTopRatedTVShows } from '@/server/data/tmdb'
+import { fetchTrendingTVDay } from '@/server/data/tmdb'
 import Carousel from '@/components/Carousel/Carousel'
 import SkeletonCarousel from '../ui/Skeletons/SkeletonCarousel'
 import { Suspense } from 'react'
 const DataTrendingTVCarousel = async () => {
-  const topRatedTVShows = await fetchTopRatedTVShows()
+  const trendingTVShows = await fetchTrendingTVDay()
   return (
     <Carousel
-      category="top_rated_tv"
-      queryKey={['top rated', 'tv']}
-      moviesOrTVShowsMediaData={topRatedTVShows}
+      category="trending_tv_day"
+      queryKey={['trending', 'tv', 'day']}
+      moviesOrTVShowsMediaData={trendingTVShows}
     />
   )
 }
