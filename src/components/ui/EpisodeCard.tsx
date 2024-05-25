@@ -11,14 +11,17 @@ type EpisodeCardProps = {
 
 const EpisodeCard = ({ className, episode, ...props }: EpisodeCardProps) => {
   const {episode: e} = useParams()
+  const {season: s} = useParams()
   const episodeNumber = +e
+  const seasonNumber = +s
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (episodeNumber === episode.episode_number && ref.current) {
-      ref.current.focus();
+    if (episodeNumber === episode.episode_number && seasonNumber === episode.season_number && ref.current) {
+      // ref.current.focus();
+      ref.current.scrollIntoView({ inline: 'start' , block: 'nearest' });
     }
-  }, [episodeNumber, episode.episode_number]);
+  }, [episodeNumber, episode.episode_number, seasonNumber, episode.season_number]);
 
   return (
     // <Badge content={episode.vote_average.toFixed(1)} color="warning">
