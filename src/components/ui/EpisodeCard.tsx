@@ -14,6 +14,9 @@ const EpisodeCard = ({ className, episode, ...props }: EpisodeCardProps) => {
   const {season: s} = useParams()
   const episodeNumber = +e
   const seasonNumber = +s
+
+  const isHighligthted = episodeNumber === episode.episode_number && seasonNumber === episode.season_number
+
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,6 +37,7 @@ const EpisodeCard = ({ className, episode, ...props }: EpisodeCardProps) => {
         {...props}
         className={cn(
           'min-w-[17rem] bg-background/70 overflow-visible',
+          isHighligthted ? 'bg-card-background': '',
           className
         )}
       >
