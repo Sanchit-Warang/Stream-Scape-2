@@ -4,17 +4,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { useMediaQuery } from '@mantine/hooks'
+import { useAddMovieToWatchHistoryMutation } from '@/hooks/watchHistory/watchHistorySlice'
 
 type VideoPlayerProps = {
   url: string
   backdrop_path: string
   poster_path: string
+  tmdbId: number
+  type: 'movie' | 'tv'
 }
 
-const VideoPlayer = ({ url, backdrop_path, poster_path }: VideoPlayerProps) => {
+const VideoPlayer = ({
+  url,
+  backdrop_path,
+  poster_path,
+  tmdbId,
+  type,
+}: VideoPlayerProps) => {
+  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation(`${tmdbId}`)
   const matches = useMediaQuery('(max-width: 640px)')
   const [showPlayer, setShowPlayer] = useState(false)
   const bgimage = matches ? poster_path : backdrop_path
+
+  const onPlayButtonClick = async() => {
+    setShowPlayer(true)
+    if(type === 'movie'){
+      await addMovieToWatchHistory.mutateAsync()
+    }
+  }
+
   return (
     <div className="w-full h-[80vh]">
       {!showPlayer ? (
@@ -28,12 +46,12 @@ const VideoPlayer = ({ url, backdrop_path, poster_path }: VideoPlayerProps) => {
           <div className="absolute top-0 z-10 bg-gradient-to-t from-background to-background/30 w-full h-full flex justify-center items-center">
             <div>
               <FontAwesomeIcon
-                onClick={() => setShowPlayer(true)}
+                onClick={() => onPlayButtonClick()}
                 icon={faPlay}
                 className="h-10 w-10"
                 beatFade
               />
-            </div>  
+            </div>
           </div>
         </div>
       ) : (

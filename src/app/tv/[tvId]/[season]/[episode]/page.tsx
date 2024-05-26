@@ -34,6 +34,8 @@ const TVShowPage = async ({
           seasonList[+params.season - 1].episodes[+params.episode - 1]
             .still_path
         }
+        tmdbId={tv.id}
+        type='tv'
       />
       <div className="m-10 flex gap-5 flex-wrap">
         <div className="w-[100%] md:w-[20%]">

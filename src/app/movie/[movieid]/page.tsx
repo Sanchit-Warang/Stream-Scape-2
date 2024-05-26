@@ -10,9 +10,11 @@ const MoviePage = async ({ params }: { params: { movieid: string } }) => {
   return (
     <>
       <VideoPlayer
-        url={`/embed/movie/${params.movieid}`}
+        url={`/embed/movie/${movie.id}`}
         backdrop_path={movie.backdrop_path}
         poster_path={movie.poster_path}
+        tmdbId={movie.id}
+        type='movie'
       />
       <div className="m-10 flex gap-5 flex-wrap">
         <div className="w-[100%] md:w-[20%]">
