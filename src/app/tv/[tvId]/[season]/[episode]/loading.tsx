@@ -7,7 +7,7 @@ const TVShowPageLoading = () => {
   return (
     <>
       <Skeleton>
-        <VideoPlayer url={`TEMP`} backdrop_path={`TEMP`} poster_path={`TEMP`} />
+        <VideoPlayer url={`TEMP`} backdrop_path={`TEMP`} poster_path={`TEMP`} type='movie' tmdbId={1}/>
       </Skeleton>
       <div className="m-10 flex gap-5 flex-wrap">
         <Skeleton className="h-[25rem]">
