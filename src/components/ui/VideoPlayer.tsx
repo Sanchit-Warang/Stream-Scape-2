@@ -4,15 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { useMediaQuery } from '@mantine/hooks'
-import { useAddMovieToWatchHistoryMutation } from '@/hooks/watchHistory/watchHistorySlice'
+import {
+  useAddMovieToWatchHistoryMutation,
+  useAddTVShowToWatchHistoryMutation,
+} from '@/hooks/watchHistory'
 
-type VideoPlayerProps = {
+type VideoPlayerPropsBase = {
   url: string
   backdrop_path: string
   poster_path: string
   tmdbId: number
-  type: 'movie' | 'tv'
 }
+
+type MovieVideoPlayerProps = VideoPlayerPropsBase & {
+  type: 'movie'
+}
+
+type TVVideoPlayerProps = VideoPlayerPropsBase & {
+  type: 'tv'
+  season: number
+  episode: number
+}
+
+type VideoPlayerProps = MovieVideoPlayerProps | TVVideoPlayerProps
 
 const VideoPlayer = ({
   url,
@@ -20,16 +34,26 @@ const VideoPlayer = ({
   poster_path,
   tmdbId,
   type,
+  ...props
 }: VideoPlayerProps) => {
-  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation(`${tmdbId}`)
+  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation()
+  const addTVShowToWatchHistory = useAddTVShowToWatchHistoryMutation()
   const matches = useMediaQuery('(max-width: 640px)')
   const [showPlayer, setShowPlayer] = useState(false)
   const bgimage = matches ? poster_path : backdrop_path
 
-  const onPlayButtonClick = async() => {
+  const onPlayButtonClick = async () => {
     setShowPlayer(true)
-    if(type === 'movie'){
-      await addMovieToWatchHistory.mutateAsync()
+    if (type === 'movie') {
+      await addMovieToWatchHistory.mutateAsync({ tmdbId: `${tmdbId}` })
+    }
+    if (type == 'tv') {
+      const { season, episode } = props as TVVideoPlayerProps
+      await addTVShowToWatchHistory.mutateAsync({
+        tmdbId: `${tmdbId}`,
+        season,
+        episode
+      })
     }
   }
 
