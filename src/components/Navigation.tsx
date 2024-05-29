@@ -42,6 +42,13 @@ const Navigation = () => {
             </p>
           </Link>
         </NavbarBrand>
+        <NavbarContent justify='center'>
+          <NavbarItem className='font-semibold text-lg cursor-pointer'>
+            <Link href={'/history'}>
+            History
+            </Link>
+          </NavbarItem>
+        </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem>
             <Button
