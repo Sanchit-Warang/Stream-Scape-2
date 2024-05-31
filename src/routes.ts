@@ -1,7 +1,7 @@
 /**
  * Private routes that need authentication
  */
-export const privateRoutes = ['/settings']
+export const privateRoutes = ['/settings', '/history']
 
 /**
  * Routes that user uses to get authenticates so authenticated users cannot acess

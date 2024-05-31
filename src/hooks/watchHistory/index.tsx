@@ -7,11 +7,11 @@ import {
 } from '@/server/actions/watchHistory'
 
 
-export const useGetUserWatchHistoryQuery = (userId: string) => {
+export const useGetUserWatchHistoryQuery = (userId: string, page: number) => {
   return useQuery({
-    queryKey: ['watchHistory', userId],
+    queryKey: ['watchHistory', userId, page],
     queryFn: () => {
-      return getUserWatchHistoryMoviesResponse(userId)
+      return getUserWatchHistoryMoviesResponse(userId, page)
     },
   })
 }
