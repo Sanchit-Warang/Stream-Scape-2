@@ -8,8 +8,12 @@ import {
   Avatar,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
   Button,
 } from '@nextui-org/react'
+import SignoutButton from './ui/SignoutButton'
 import { useWindowScroll } from '@mantine/hooks'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
@@ -42,11 +46,9 @@ const Navigation = () => {
             </p>
           </Link>
         </NavbarBrand>
-        <NavbarContent justify='center'>
-          <NavbarItem className='font-semibold text-lg cursor-pointer'>
-            <Link href={'/history'}>
-            History
-            </Link>
+        <NavbarContent className='hidden md:flex' justify="center">
+          <NavbarItem className="font-semibold text-lg cursor-pointer">
+            <Link href={'/history'}>History</Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
@@ -64,11 +66,22 @@ const Navigation = () => {
           </NavbarItem>
           {session.data?.user ? (
             <NavbarItem className="flex gap-3 items-center">
-              <Avatar
-                isBordered
-                color="success"
-                src={session.data?.user.image ? session.data?.user.image : ''}
-              />
+              <Popover placement="bottom" showArrow={true}>
+                <PopoverTrigger>
+                  <Avatar
+                    isBordered
+                    color="success"
+                    src={
+                      session.data?.user.image ? session.data?.user.image : ''
+                    }
+                  />
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="px-1 py-2">
+                    <SignoutButton />
+                  </div>
+                </PopoverContent>
+              </Popover>
               <p className="text-copy-light font-semibold">
                 {session.data?.user.name}
               </p>
@@ -96,6 +109,11 @@ const Navigation = () => {
             <NavbarMenuItem>
               <Link className="w-full" href="/register">
                 Register
+              </Link>
+            </NavbarMenuItem>
+            <NavbarMenuItem>
+              <Link className="w-full" href="/history">
+                History
               </Link>
             </NavbarMenuItem>
           </NavbarMenu>

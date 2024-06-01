@@ -46,12 +46,19 @@ const MediaCard = ({ movie, tv }: MediaCardProps) => {
           'seasonNumber' in item &&
           'episodeNumber' in item && (
             // <div className="absolute z-[11] w-full h-full flex justify-end items-center left-3">
-              <Chip size='sm' color="success" className="absolute z-[11] bottom-[-6] right-[-10]">
-                {`${item.seasonNumber}`}/{`${item.episodeNumber}`}
-              </Chip>
+            <Chip
+              size="sm"
+              color="success"
+              className="absolute z-[11] bottom-[-6] right-[-10]"
+            >
+              {`${item.seasonNumber}`}/{`${item.episodeNumber}`}
+            </Chip>
             // </div>
           )}
-        <Badge content={`${item.vote_average.toFixed(1)}`} color="warning">
+        <Badge
+          content={`${item.vote_average ? item.vote_average.toFixed(1) : 0}`}
+          color="warning"
+        >
           <Image
             isBlurred
             isZoomed

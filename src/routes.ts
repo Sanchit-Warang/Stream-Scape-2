@@ -16,7 +16,7 @@ export const apiAuthPrefix = '/api/auth'
 /**
  *  default ridect after loggin in
  */
-export const DEFAULT_LOGIN_REDIECT = '/settings'
+export const DEFAULT_LOGIN_REDIECT = '/'
 
 /**
  * default rediect for protected routes
