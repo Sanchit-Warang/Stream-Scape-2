@@ -8,6 +8,7 @@ import {
   useAddMovieToWatchHistoryMutation,
   useAddTVShowToWatchHistoryMutation,
 } from '@/hooks/watchHistory'
+import { useSession } from 'next-auth/react'
 
 type VideoPlayerPropsBase = {
   url: string
@@ -36,8 +37,13 @@ const VideoPlayer = ({
   type,
   ...props
 }: VideoPlayerProps) => {
-  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation()
-  const addTVShowToWatchHistory = useAddTVShowToWatchHistoryMutation()
+  const session = useSession()
+  const userId = session.data?.user.id ? session.data?.user.id : ''
+  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation(userId)
+  const addTVShowToWatchHistory = useAddTVShowToWatchHistoryMutation(
+    userId,
+    `${tmdbId}`
+  )
   const matches = useMediaQuery('(max-width: 640px)')
   const [showPlayer, setShowPlayer] = useState(false)
   const bgimage = matches ? poster_path : backdrop_path
@@ -45,14 +51,15 @@ const VideoPlayer = ({
   const onPlayButtonClick = async () => {
     setShowPlayer(true)
     if (type === 'movie') {
-      await addMovieToWatchHistory.mutateAsync({ tmdbId: `${tmdbId}` })
+      await addMovieToWatchHistory.mutateAsync({ userId, tmdbId: `${tmdbId}` })
     }
     if (type == 'tv') {
       const { season, episode } = props as TVVideoPlayerProps
       await addTVShowToWatchHistory.mutateAsync({
+        userId,
         tmdbId: `${tmdbId}`,
         season,
-        episode
+        episode,
       })
     }
   }

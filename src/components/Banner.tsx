@@ -87,7 +87,7 @@ type MovieDataBanner = {
 }
 
 export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure()
   return (
     <>
       <div className="flex-grow-0 flex-shrink-0 w-full min-w-0">
@@ -103,12 +103,12 @@ export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
             <p className="line-clamp-3">{movie.overview}</p>
           </div>
           <div className="flex gap-3">
-            <PlayButton as={Link} size="sm"/>
+            <PlayButton as={Link} to={`/movie/${movie.id}`} size="sm"/>
             {/* <InfoButton onClick={onOpen} size="sm" /> */}
           </div>
         </div>
       </div>
-      <Modal
+      {/* <Modal
         className="p-0"
         backdrop="blur"
         size="3xl"
@@ -146,7 +146,7 @@ export const MovieDataBanner = ({ movie }: MovieDataBanner) => {
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </>
   )
 }

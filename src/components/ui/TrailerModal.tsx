@@ -3,15 +3,14 @@ import Trailer from '../Trailer'
 import PlayButton from './PlayButton'
 import { cn } from '@/utils/tw'
 import { Movie, TVShow } from '@/types'
+import { isMovie } from '@/utils/custom/typeGuard'
+import TvShowWatchButton from '../data/TvShowWatchButton'
 
 type TrailerModalProps = {
   entry: Movie | TVShow
 } & Omit<ModalProps, 'children' | 'backdrop' | 'closeButton' | 'size'>
 
 const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
-  const navigationLink =
-    'title' in entry ? `/movie/${entry.id}` : `/tv/${entry.id}/1/1`
-
   return (
     <Modal
       className={cn('p-0')}
@@ -46,7 +45,11 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
                   </span>
                 </div>
                 <p className="text-xs text-copy-lighter">{entry.overview}</p>
-                <PlayButton to={navigationLink} size="sm" />
+                {isMovie(entry) ? (
+                  <PlayButton to={`/movie/${entry.id}`} size="sm" />
+                ) : (
+                  <TvShowWatchButton tvid={entry.id} />
+                )}
               </div>
             </ModalBody>
           </>

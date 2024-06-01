@@ -19,9 +19,8 @@ import {
 } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import {
-    ReactNode,
     useCallback,
-    useEffect,
+    useLayoutEffect,
     useState
 } from "react";
 // Next Session imports done
@@ -60,7 +59,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         fetchSession().finally();
     }, [fetchSession, pathName]);
 

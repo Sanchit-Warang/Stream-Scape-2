@@ -2,12 +2,19 @@
 import { db } from '@/lib/db'
 import { auth } from '@/auth'
 
-export const addMovieToWatchHistory = async (tmdbId: string) => {
+export const addMovieToWatchHistory = async (
+  userId: string,
+  tmdbId: string
+) => {
   const session = await auth()
   const user = session?.user
 
   if (!user) {
     throw new Error('You Need to login')
+  }
+
+  if (user.id !== userId) {
+    throw new Error('Unauthorized')
   }
 
   const movie = await db.movieWatchHistory.findFirst({
@@ -34,6 +41,7 @@ export const addMovieToWatchHistory = async (tmdbId: string) => {
 }
 
 export const addTVShowToWatchHistory = async (
+  userId :  string,
   tmdbId: string,
   season: number,
   episode: number
@@ -43,6 +51,10 @@ export const addTVShowToWatchHistory = async (
 
   if (!user) {
     throw new Error('You Need to login')
+  }
+
+  if (user.id !== userId) {
+    throw new Error('Unauthorized')
   }
 
   let tvShow = await db.tVWatchHistory.findFirst({
