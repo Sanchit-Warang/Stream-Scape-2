@@ -5,12 +5,14 @@ import { cn } from '@/utils/tw'
 import { Movie, TVShow } from '@/types'
 import { isMovie } from '@/utils/custom/typeGuard'
 import TvShowWatchButton from '../data/TvShowWatchButton'
+import { useSession } from 'next-auth/react'
 
 type TrailerModalProps = {
   entry: Movie | TVShow
 } & Omit<ModalProps, 'children' | 'backdrop' | 'closeButton' | 'size'>
 
 const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
+  const session = useSession()
   return (
     <Modal
       className={cn('p-0')}
@@ -48,7 +50,13 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
                 {isMovie(entry) ? (
                   <PlayButton to={`/movie/${entry.id}`} size="sm" />
                 ) : (
-                  <TvShowWatchButton tvid={entry.id} />
+                  <>
+                    {session.data?.user ? (
+                      <TvShowWatchButton tvid={entry.id} />
+                    ) : (
+                      <PlayButton to={`/tv/${entry.id}/1/1`} size="sm" />
+                    )}
+                  </>
                 )}
               </div>
             </ModalBody>
