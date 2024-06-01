@@ -50,13 +50,7 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
                 {isMovie(entry) ? (
                   <PlayButton to={`/movie/${entry.id}`} size="sm" />
                 ) : (
-                  <>
-                    {session.data?.user ? (
-                      <TvShowWatchButton tvid={entry.id} />
-                    ) : (
-                      <PlayButton to={`/tv/${entry.id}/1/1`} size="sm" />
-                    )}
-                  </>
+                  <TvShowWatchButton tvid={entry.id} />
                 )}
               </div>
             </ModalBody>

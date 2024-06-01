@@ -12,6 +12,10 @@ const TvShowWatchButton = ({ tvid }: TvShowWatchButtonProps) => {
   const userId = session.data?.user.id ? session.data?.user.id : ''
   const query = useGetIfTVShowIsInWatchHistoryQuery(userId, `${tvid}`)
 
+  if(userId === ''){ 
+    return <PlayButton to={`/tv/${tvid}/1/1`} size="sm"/>
+   }
+
   if (query.isLoading && !query.data) {
     return <PlayButton to={`/tv/${tvid}`} size="sm" isDisabled={true} />
   }
