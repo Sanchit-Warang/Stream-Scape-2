@@ -45,7 +45,7 @@ const UserWatchHistory = ({ mediaType }: UserWatchHistoryProps) => {
       return (
         <div className="w-full grid grid-cols-2 md:grid-cols-7 gap-3  md:gap-6">
           {temp.map((t, i) => (
-            <Skeleton key={i} className='rounded-lg'>
+            <Skeleton key={i} className="rounded-lg">
               <Card className="w-full h-[19.93rem]"></Card>
             </Skeleton>
           ))}
@@ -57,17 +57,16 @@ const UserWatchHistory = ({ mediaType }: UserWatchHistoryProps) => {
     }
     if (data) {
       return (
-        // <div className="w-full flex gap-3  md:gap-6 flex-wrap">
         <div className="w-full grid grid-cols-2 md:grid-cols-7 gap-3  md:gap-6 flex-wrap">
           {mediaType === 'movie' &&
             'movies' in data &&
             data.movies.map((movie) => (
-              <MediaCard key={movie.id} movie={movie} />
+              <MediaCard key={movie.id} movie={movie} page={currentPage} />
             ))}
           {mediaType === 'tvShow' &&
             'tvShows' in data &&
             data.tvShows.map((tvShow) => (
-              <MediaCard key={tvShow.id} tv={tvShow} />
+              <MediaCard key={tvShow.id} tv={tvShow} page={currentPage} />
             ))}
         </div>
       )
@@ -80,23 +79,27 @@ const UserWatchHistory = ({ mediaType }: UserWatchHistoryProps) => {
       <p className="text-2xl font-semibold">
         {mediaType === 'movie' ? 'Movie' : 'TV Show'} Watch History
       </p>
-      <div className="w-full flex justify-center">
-        <Pagination
-          color={mediaType === 'movie' ? 'primary' : 'secondary'}
-          total={totalPages}
-          page={currentPage}
-          onChange={setCurrentPage}
-        />
-      </div>
+      {totalPages !== 0 && (
+        <div className="w-full flex justify-center">
+          <Pagination
+            color={mediaType === 'movie' ? 'primary' : 'secondary'}
+            total={totalPages}
+            page={currentPage}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
       {WatchHistoryJSX()}
-      <div className="w-full flex justify-center">
-        <Pagination
-          color={mediaType === 'movie' ? 'primary' : 'secondary'}
-          total={totalPages}
-          page={currentPage}
-          onChange={setCurrentPage}
-        />
-      </div>
+      {totalPages !== 0 && (
+        <div className="w-full flex justify-center">
+          <Pagination
+            color={mediaType === 'movie' ? 'primary' : 'secondary'}
+            total={totalPages}
+            page={currentPage}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
     </div>
   )
 }

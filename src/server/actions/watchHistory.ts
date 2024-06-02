@@ -41,7 +41,7 @@ export const addMovieToWatchHistory = async (
 }
 
 export const addTVShowToWatchHistory = async (
-  userId :  string,
+  userId: string,
   tmdbId: string,
   season: number,
   episode: number
@@ -103,5 +103,79 @@ export const addTVShowToWatchHistory = async (
   })
   return {
     msg: 'TV Show Added to Watch History',
+  }
+}
+
+export const deleteMovieFromWatchHistory = async (
+  userId: string,
+  tmdbId: string
+) => {
+  const session = await auth()
+  const user = session?.user
+
+  if (!user) {
+    throw new Error('You Need to login')
+  }
+
+  if (user.id !== userId) {
+    throw new Error('Unauthorized')
+  }
+
+  const movie = await db.movieWatchHistory.findFirst({
+    where: {
+      tmdbId: tmdbId,
+      userId: user.id,
+    },
+  })
+
+  if (!movie) {
+    throw new Error('Movie Not Found in Watch History')
+  }
+
+  await db.movieWatchHistory.delete({
+    where: {
+      id: movie.id,
+    },
+  })
+
+  return {
+    msg: 'Movie Removed from Watch History',
+  }
+}
+
+export const deleteTVShowFromWatchHistory = async (
+  userId: string,
+  tmdbId: string
+) => {
+  const session = await auth()
+  const user = session?.user
+
+  if (!user) {
+    throw new Error('You Need to login')
+  }
+
+  if (user.id !== userId) {
+    throw new Error('Unauthorized')
+  }
+
+  const tvShow = await db.tVWatchHistory.findFirst({
+    where: {
+      tmdbId: tmdbId,
+      userId: user.id,
+    },
+  })
+
+  if (!tvShow) {
+    throw new Error('TV Show Not Found in Watch History')
+  }
+
+  await db.tVWatchHistory.delete({
+    where: {
+      id: tvShow.id,
+    },
+  })
+
+  return {
+    msg: 'TV Show Removed from Watch History',
   }
 }

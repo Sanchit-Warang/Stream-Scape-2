@@ -53,11 +53,14 @@ model User {
 }
 
 model MovieWatchHistory {
-  id      String   @id @default(cuid())
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
-  tmdbId  String
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tmdbId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 
 model TVWatchHistory {
   id            String    @id @default(cuid())
@@ -66,4 +69,6 @@ model TVWatchHistory {
   tmdbId        String
   seasonNumber  Int
   episodeNumber Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

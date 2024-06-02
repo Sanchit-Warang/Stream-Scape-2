@@ -30,6 +30,9 @@ export const getUserWatchHistoryMovies = async (
     where: {
       userId: userId,
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
     skip: offset,
     take: pageSize,
   })
@@ -94,6 +97,9 @@ export const getUserWatchHistoryTVShows = async (
   const tvShows = await db.tVWatchHistory.findMany({
     where: {
       userId: userId,
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
     skip: offset,
     take: pageSize,
