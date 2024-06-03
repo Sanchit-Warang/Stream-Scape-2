@@ -1,6 +1,7 @@
 'use server'
 import { db } from '@/lib/db'
 import { auth } from '@/auth'
+import wait from '@/utils/custom/wait'
 
 export const addMovieToWatchHistory = async (
   userId: string,
@@ -131,6 +132,8 @@ export const deleteMovieFromWatchHistory = async (
   if (!movie) {
     throw new Error('Movie Not Found in Watch History')
   }
+
+  await wait(1000)
 
   await db.movieWatchHistory.delete({
     where: {

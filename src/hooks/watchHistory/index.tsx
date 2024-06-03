@@ -62,8 +62,7 @@ export const useAddMovieToWatchHistoryMutation = () => {
   })
 }
 
-export const useAddTVShowToWatchHistoryMutation = (
-) => {
+export const useAddTVShowToWatchHistoryMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({
@@ -82,7 +81,11 @@ export const useAddTVShowToWatchHistoryMutation = (
     onSuccess: (_err, variables) => {
       queryClient.invalidateQueries({ queryKey: ['watchHistoryTVShows'] })
       queryClient.invalidateQueries({
-        queryKey: ['ifTVShowIsInWatchHistory', variables.userId, variables.tmdbId],
+        queryKey: [
+          'ifTVShowIsInWatchHistory',
+          variables.userId,
+          variables.tmdbId,
+        ],
       })
     },
   })
@@ -91,7 +94,14 @@ export const useAddTVShowToWatchHistoryMutation = (
 export const useDeleteMovieFromWatchHistoryMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ userId, tmdbId }: { tmdbId: string; userId: string, page:number }) => {
+    mutationFn: ({
+      userId,
+      tmdbId,
+    }: {
+      tmdbId: string
+      userId: string
+      page: number
+    }) => {
       return deleteMovieFromWatchHistory(userId, tmdbId)
     },
     onMutate: async ({ userId, tmdbId, page }) => {
@@ -101,15 +111,17 @@ export const useDeleteMovieFromWatchHistoryMutation = () => {
       const previousData = queryClient.getQueryData([
         'watchHistoryMovies',
         userId,
-        page
+        page,
       ])
-      queryClient.setQueryData(['watchHistoryMovies', userId, page], (old: any) => {
-        console.log('Sanchit', old)
-        return {
-          ...old,
-          movies: old.movies.filter((movie: any) => movie.tmdbId !== tmdbId),
+      queryClient.setQueryData(
+        ['watchHistoryMovies', userId, page],
+        (old: any) => {
+          return {
+            ...old,
+            movies: old.movies.filter((movie: any) => movie.id !== +tmdbId),
+          }
         }
-      })
+      )
       return { previousData }
     },
     onError: (_err, variables, context) => {
@@ -128,16 +140,18 @@ export const useDeleteMovieFromWatchHistoryMutation = () => {
   })
 }
 
-
-
-
-
-
 export const useDeleteTVShowFromWatchHistoryMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ userId, tmdbId }: { tmdbId: string; userId: string, page:number }) => {
+    mutationFn: ({
+      userId,
+      tmdbId,
+    }: {
+      tmdbId: string
+      userId: string
+      page: number
+    }) => {
       return deleteTVShowFromWatchHistory(userId, tmdbId)
     },
     onMutate: async ({ userId, tmdbId, page }) => {
@@ -150,7 +164,7 @@ export const useDeleteTVShowFromWatchHistoryMutation = () => {
       const previousData = queryClient.getQueryData([
         'watchHistoryTVShows',
         userId,
-        page
+        page,
       ])
 
       // Optimistically remove the TV show from the watch history list
@@ -161,7 +175,7 @@ export const useDeleteTVShowFromWatchHistoryMutation = () => {
           return {
             ...oldData,
             tvShows: oldData.tvShows.filter(
-              (tvShow: any) => tvShow.tmdbId !== tmdbId
+              (tvShow: any) => tvShow.id !== +tmdbId
             ),
           }
         }
@@ -187,7 +201,11 @@ export const useDeleteTVShowFromWatchHistoryMutation = () => {
 
       // Invalidate the query for checking if the TV show is in the watch history
       queryClient.invalidateQueries({
-        queryKey: ['ifTVShowIsInWatchHistory', variables.userId, variables.tmdbId],
+        queryKey: [
+          'ifTVShowIsInWatchHistory',
+          variables.userId,
+          variables.tmdbId,
+        ],
       })
     },
   })

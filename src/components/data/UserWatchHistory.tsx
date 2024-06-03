@@ -32,7 +32,6 @@ const UserWatchHistory = ({ mediaType }: UserWatchHistoryProps) => {
 
   useEffect(() => {
     if (data) {
-      console.log(totalPages, data.pagination.totalPages)
       if (totalPages !== data.pagination.totalPages) {
         setTotalPages(data.pagination.totalPages)
       }
