@@ -38,10 +38,10 @@ const MediaCard = ({ movie, tv, page = 0 }: MediaCardProps) => {
   const userId = session.data?.user?.id ? session.data?.user?.id : ''
 
   const deleteMovieFromWatchHistoryMutation =
-    useDeleteMovieFromWatchHistoryMutation(userId)
+    useDeleteMovieFromWatchHistoryMutation()
 
   const deleteTVShowFromWatchHistoryMutation =
-    useDeleteTVShowFromWatchHistoryMutation(userId, `${item.id}`)
+    useDeleteTVShowFromWatchHistoryMutation()
 
   if (!item) {
     return null
@@ -84,7 +84,7 @@ const MediaCard = ({ movie, tv, page = 0 }: MediaCardProps) => {
               <Chip
                 size="sm"
                 color="success"
-                className="absolute z-[11] -bottom-[6] -right-[10]"
+                className="absolute z-[11] -bottom-[6px] -right-[10px]"
               >
                 {`${item.seasonNumber}`}/{`${item.episodeNumber}`}
               </Chip>
@@ -94,7 +94,7 @@ const MediaCard = ({ movie, tv, page = 0 }: MediaCardProps) => {
           isIconOnly
           color="danger"
           size="sm"
-          className="rounded-full absolute z-[11] -top-[6] -left-[10]"
+          className="rounded-full absolute z-[11] -top-[6px] -left-[10px]"
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()

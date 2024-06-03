@@ -39,11 +39,8 @@ const VideoPlayer = ({
 }: VideoPlayerProps) => {
   const session = useSession()
   const userId = session.data?.user.id ? session.data?.user.id : ''
-  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation(userId)
-  const addTVShowToWatchHistory = useAddTVShowToWatchHistoryMutation(
-    userId,
-    `${tmdbId}`
-  )
+  const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation()
+  const addTVShowToWatchHistory = useAddTVShowToWatchHistoryMutation()
   const matches = useMediaQuery('(max-width: 640px)')
   const [showPlayer, setShowPlayer] = useState(false)
   const bgimage = matches ? poster_path : backdrop_path
