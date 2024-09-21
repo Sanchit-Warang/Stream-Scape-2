@@ -2,17 +2,28 @@ import { Modal, ModalBody, ModalContent, ModalProps } from '@nextui-org/modal'
 import Trailer from '../Trailer'
 import PlayButton from './PlayButton'
 import { cn } from '@/utils/tw'
-import { Movie, TVShow } from '@/types'
+import { Movie, TVShow, Anime } from '@/types'
 import { isMovie } from '@/utils/custom/typeGuard'
 import TvShowWatchButton from '../data/TvShowWatchButton'
 import { useSession } from 'next-auth/react'
+import { getMediaType } from '@/utils/custom/typeGuard'
 
 type TrailerModalProps = {
-  entry: Movie | TVShow
+  entry: Movie | TVShow | Anime
 } & Omit<ModalProps, 'children' | 'backdrop' | 'closeButton' | 'size'>
 
 const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
-  const session = useSession()
+  const playButtonJSX = () => {
+    switch (getMediaType(entry)) {
+      case 'Movie':
+        return <PlayButton to={`/movie/${entry.id}`} size="sm" />
+      case 'TV':
+        return <TvShowWatchButton tvid={entry.id} />
+      case 'Anime':
+        return <PlayButton to={`/anime/${entry.id}`} size="sm" />
+    }
+  }
+
   return (
     <Modal
       className={cn('p-0')}
@@ -29,7 +40,7 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
                 <Trailer
                   onClose={onClose}
                   id={entry.id}
-                  type={'title' in entry ? 'movie' : 'tv'}
+                  type={getMediaType(entry)}
                 />
               )}
               <div className="p-3 space-y-4">
@@ -46,12 +57,12 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
                       : entry.first_air_date}
                   </span>
                 </div>
-                <p className="text-xs text-copy-lighter">{entry.overview}</p>
-                {isMovie(entry) ? (
-                  <PlayButton to={`/movie/${entry.id}`} size="sm" />
-                ) : (
-                  <TvShowWatchButton tvid={entry.id} />
-                )}
+                <p
+                  className="text-xs text-copy-lighter"
+                  dangerouslySetInnerHTML={{ __html: entry.overview }}
+                >
+                </p>
+                {playButtonJSX()}
               </div>
             </ModalBody>
           </>

@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { MediaData, Movie, TVShow, Trailer } from '@/types'
+import { MediaData, MediaType, Movie, TVShow, Trailer } from '@/types'
 import { PaginatedParameters } from '@/types'
+import { fetchAnimeTrailerById } from '@/server/data/tmdb'
 
 export const fetchPaginatedTrendingMoviesDay = async ({
   pageParam,
@@ -50,20 +51,25 @@ export const fetchPaginatedTopRatedTVShows = async ({
   return data as MediaData<TVShow>
 }
 
-export const fetchTrailer = async (id: number, type: 'movie' | 'tv') => {
-  const { data } = await axios.get('api/tmdb', {
-    params: {
-      tmdburl: `${type}/${id}/videos`,
-    },
-  })
-  const videos = data.results
-  let trailer = null
-  if (videos) {
-    trailer = videos.find((video: any) => video.type === 'Trailer')
-    if (!trailer) {
-      trailer = videos[0]
+export const fetchTrailer = async (id: number, type: MediaType) => {
+  if (type === 'TV' || type === 'Movie') {
+    const { data } = await axios.get('api/tmdb', {
+      params: {
+        tmdburl: `${type.toLowerCase()}/${id}/videos`,
+      },
+    })
+    const videos = data.results
+    let trailer = null
+    if (videos) {
+      trailer = videos.find((video: any) => video.type === 'Trailer')
+      if (!trailer) {
+        trailer = videos[0]
+      }
     }
+  
+    return trailer as Trailer
   }
 
-  return trailer as Trailer
+  const res = await fetchAnimeTrailerById(id)
+  return res
 }

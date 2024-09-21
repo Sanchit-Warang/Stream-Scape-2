@@ -12,11 +12,12 @@ import {
   faVolumeMute,
   faVolumeHigh,
 } from '@fortawesome/free-solid-svg-icons'
+import { MediaType } from '@/types'
 
 type TrailerProps = {
   id: number
   onClose: () => void
-  type: 'movie' | 'tv'
+  type: MediaType
 }
 const Trailer = ({ id, onClose, type }: TrailerProps) => {
   const trailer = useGetTrailer(id, type)

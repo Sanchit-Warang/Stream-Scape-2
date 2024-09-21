@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.8",
     "@auth/prisma-adapter": "^1.6.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -28,6 +29,7 @@
     "embla-carousel-autoplay": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
     "framer-motion": "^11.0.3",
+    "graphql": "^16.9.0",
     "next": "^14.1.4",
     "next-auth": "^5.0.0-beta.16",
     "next-pwa": "^5.6.0",

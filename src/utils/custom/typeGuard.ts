@@ -1,4 +1,4 @@
-import { Movie, SingleMovie, TVShow, SingleTVShow } from '@/types'
+import { Movie, SingleMovie, TVShow, SingleTVShow, Anime } from '@/types'
 
 export const isMovie = (
   item:
@@ -12,4 +12,16 @@ export const isMovie = (
       })
 ): item is Movie | SingleMovie => {
   return 'title' in item
+}
+
+export function getMediaType(
+  media: Movie | TVShow | Anime
+): 'Movie' | 'TV' | 'Anime' {
+  if ('original_title' in media) {
+    return 'Movie'
+  } else if ('original_name' in media) {
+    return 'TV'
+  } else {
+    return 'Anime'
+  }
 }

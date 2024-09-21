@@ -1,12 +1,12 @@
 'use client'
-import { MediaData, Movie, TVShow } from '@/types'
+import { MediaData, Movie, TVShow, Anime } from '@/types'
 import CarouselCard from './CarouselCard'
 import { motion } from 'framer-motion'
 import { Button, CircularProgress } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useRef, useEffect } from 'react'
-import { fetchPaginatedTopRatedTVShows } from '@/api/tmdb'
+import { fetchTrendingAnimeDay, fetchTopRatedAnime } from '@/server/data/tmdb'
 //new import
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useInViewport } from '@mantine/hooks'
@@ -14,10 +14,12 @@ import {
   fetchPaginatedTopRatedMovies,
   fetchPaginatedTrendingMoviesDay,
   fetchPaginatedTrendingTVDay,
+  fetchPaginatedTopRatedTVShows,
 } from '@/api/tmdb'
+import { PaginatedParameters } from '@/types'
 
 type CarousalProps = {
-  moviesOrTVShowsMediaData: MediaData<Movie | TVShow>
+  moviesOrTVShowsMediaData: MediaData<Movie | TVShow | Anime>
   category: Category
   queryKey: (string | number)[]
   scrollToSlides?: number
@@ -28,12 +30,16 @@ type Category =
   | 'top_rated_movie'
   | 'trending_tv_day'
   | 'top_rated_tv'
+  | 'trending_anime_day'
+  | 'top_rated_anime'
 
 const functions = {
   trending_movie_day: fetchPaginatedTrendingMoviesDay,
   trending_tv_day: fetchPaginatedTrendingTVDay,
+  trending_anime_day: fetchTrendingAnimeDay,
   top_rated_movie: fetchPaginatedTopRatedMovies,
   top_rated_tv: fetchPaginatedTopRatedTVShows,
+  top_rated_anime: fetchTopRatedAnime,
 }
 
 const Carousel = ({
@@ -68,7 +74,8 @@ const Carousel = ({
   //nre Code
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey,
-    queryFn: functions[category],
+    queryFn: async ({ pageParam = 1 }: PaginatedParameters) =>
+      await functions[category]({ pageParam }),
     initialPageParam: 2,
     getNextPageParam: (lastPage) => {
       if (lastPage.page === lastPage.total_pages) return null
