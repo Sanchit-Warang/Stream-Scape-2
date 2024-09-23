@@ -26,13 +26,13 @@ const TVShowPage = async ({
       <EpisodeListDrawer name={tv.name} seasonList={seasonList} />
       <VideoPlayer
         url={`/embed/tv/${params.tvId}/${params.season}/${params.episode}`}
-        backdrop_path={
+        backdrop_path={`https://image.tmdb.org/t/p/original${
           seasonList[+params.season - 1].episodes[+params.episode - 1]
-            .still_path
+            .still_path}`
         }
-        poster_path={
+        poster_path={`https://image.tmdb.org/t/p/original${
           seasonList[+params.season - 1].episodes[+params.episode - 1]
-            .still_path
+            .still_path}`
         }
         tmdbId={tv.id}
         type='tv'

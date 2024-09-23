@@ -3,7 +3,17 @@ import { useRef } from 'react'
 import { Button } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-const CarouselWrapper = ({ children }: { children: React.ReactNode }) => {
+import { cn } from '@/utils/tw'
+
+export type CarouselWrapperProps = {
+  children: React.ReactNode
+} & React.HTMLAttributes<HTMLDivElement>
+
+const CarouselWrapper = ({
+  children,
+  className,
+  ...props
+}: CarouselWrapperProps) => {
   const showsRef = useRef<HTMLDivElement>(null)
   const scrollToDirection = (direction: 'left' | 'right') => {
     if (!showsRef.current) return
@@ -45,7 +55,11 @@ const CarouselWrapper = ({ children }: { children: React.ReactNode }) => {
 
       <div
         ref={showsRef}
-        className="carousel-container  mt-4 flex gap-2 overflow-x-auto overflow-y-visible no-scrollbar py-2"
+        {...props}
+        className={cn(
+          'carousel-container  mt-4 flex gap-2 overflow-x-auto overflow-y-visible no-scrollbar py-2',
+          className
+        )}
       >
         {children}
       </div>

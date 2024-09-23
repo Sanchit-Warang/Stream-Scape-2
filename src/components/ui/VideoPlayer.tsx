@@ -13,8 +13,8 @@ import { Tabs, Tab } from '@nextui-org/react'
 
 type VideoPlayerPropsBase = {
   url: string
-  backdrop_path: string
-  poster_path: string
+  backdrop_path?: string
+  poster_path?: string
   tmdbId: number
 }
 
@@ -28,7 +28,15 @@ type TVVideoPlayerProps = VideoPlayerPropsBase & {
   episode: number
 }
 
-type VideoPlayerProps = MovieVideoPlayerProps | TVVideoPlayerProps
+type AnimeVideoPlayerProps = VideoPlayerPropsBase & {
+  type: 'Anime'
+  episode: number
+}
+
+type VideoPlayerProps =
+  | MovieVideoPlayerProps
+  | TVVideoPlayerProps
+  | AnimeVideoPlayerProps
 
 const VideoPlayer = ({
   url,
@@ -38,14 +46,20 @@ const VideoPlayer = ({
   type,
   ...props
 }: VideoPlayerProps) => {
-  const [selected, setSelected] = useState<any>(`${process.env.NEXT_PUBLIC_STREAM_URL_1}`);
+  const [selected, setSelected] = useState<any>(
+    `${process.env.NEXT_PUBLIC_STREAM_URL_1}`
+  )
   const session = useSession()
   const userId = session.data?.user.id ? session.data?.user.id : ''
   const addMovieToWatchHistory = useAddMovieToWatchHistoryMutation()
   const addTVShowToWatchHistory = useAddTVShowToWatchHistoryMutation()
   const matches = useMediaQuery('(max-width: 640px)')
   const [showPlayer, setShowPlayer] = useState(false)
-  const bgimage = matches ? poster_path : backdrop_path
+  let bgimage = matches ? poster_path : backdrop_path
+
+  if (!bgimage) {
+    bgimage = ''
+  }
 
   const onPlayButtonClick = async () => {
     setShowPlayer(true)
@@ -71,7 +85,7 @@ const VideoPlayer = ({
             <div
               className={cn(`w-full h-full  bg-center bg-cover bg-no-repeat `)}
               style={{
-                backgroundImage: `url('https://image.tmdb.org/t/p/original${bgimage}')`,
+                backgroundImage: `url('${bgimage}')`,
               }}
             ></div>
             <div className="absolute top-0 z-10 bg-gradient-to-t from-background to-background/30 w-full h-full flex justify-center items-center">
@@ -94,20 +108,24 @@ const VideoPlayer = ({
           />
         )}
       </div>
-      <div className='w-full flex justify-center'>
-      <Tabs 
-        aria-label="Options"
-        className='my-5'    
-        size='lg'
-        color='primary'     
-        selectedKey={selected}
-        onSelectionChange={setSelected}
-      >
-        <Tab key={`${process.env.NEXT_PUBLIC_STREAM_URL_1}`} title="Server 1">
-        </Tab>
-        <Tab key={`${process.env.NEXT_PUBLIC_STREAM_URL_2}`} title="Server 2"> 
-        </Tab>
-      </Tabs>
+      <div className="w-full flex justify-center">
+        <Tabs
+          aria-label="Options"
+          className="my-5"
+          size="lg"
+          color="primary"
+          selectedKey={selected}
+          onSelectionChange={setSelected}
+        >
+          <Tab
+            key={`${process.env.NEXT_PUBLIC_STREAM_URL_1}`}
+            title="Server 1"
+          ></Tab>
+          <Tab
+            key={`${process.env.NEXT_PUBLIC_STREAM_URL_2}`}
+            title="Server 2"
+          ></Tab>
+        </Tabs>
       </div>
     </>
   )

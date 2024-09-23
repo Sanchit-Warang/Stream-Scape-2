@@ -7,40 +7,55 @@ import {
   TVShow,
   TVSeasonDeatail,
   Anime,
-  Trailer
+  Trailer,
+  MediaType,
 } from '@/types'
 import apolloClient from '@/lib/apollo'
 import { gql } from '@apollo/client'
-import { PaginatedParameters } from '@/types'
 
-export const fetchTrendingMoviesDay = async () => {
+export const fetchTrendingMoviesDay = async (page = 1) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['trending', 'movie', 'day'], revalidate: 60 * 5 } }
+    `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_API_KEY}&page=${page}`,
+    {
+      next: {
+        tags: ['trending', 'movie', 'day', page.toString()],
+        revalidate: 60 * 5,
+      },
+    }
   )
   return (await res.json()) as MediaData<Movie>
 }
 
-export const fetchTrendingTVDay = async () => {
+export const fetchTrendingTVDay = async (page = 1) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['trending', 'tv', 'day'], revalidate: 60 * 5 } }
+    `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.TMDB_API_KEY}&page=${page}`,
+    {
+      next: {
+        tags: ['trending', 'tv', 'day', page.toString()],
+        revalidate: 60 * 5,
+      },
+    }
   )
   return (await res.json()) as MediaData<Movie>
 }
 
-export const fetchTopRatedMovies = async () => {
+export const fetchTopRatedMovies = async (page = 1) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['top rated', 'movie'], revalidate: 60 * 5 } }
+    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.TMDB_API_KEY}&page=${page}`,
+    {
+      next: {
+        tags: ['top rated', 'movie', page.toString()],
+        revalidate: 60 * 5,
+      },
+    }
   )
   return (await res.json()) as MediaData<Movie>
 }
 
-export const fetchTopRatedTVShows = async () => {
+export const fetchTopRatedTVShows = async (page = 1) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.TMDB_API_KEY}`,
-    { next: { tags: ['top rated', 'tv'], revalidate: 60 * 5 } }
+    `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.TMDB_API_KEY}&page=${page}`,
+    { next: { tags: ['top rated', 'tv', page.toString()], revalidate: 60 * 5 } }
   )
   return (await res.json()) as MediaData<TVShow>
 }
@@ -66,7 +81,16 @@ export const fetchQuickSearch = async (query: string) => {
     `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_API_KEY}&query=${query}`,
     { next: { tags: ['quicksearch', `${query}`], revalidate: 60 * 5 } }
   )
-  return (await res.json()) as MediaData<Movie | TVShow>
+
+  const data: MediaData<any> = await res.json()
+
+  const filteredResults = data.results.filter(
+    (item: any) => item.media_type !== 'person'
+  )
+
+  data.results = filteredResults
+
+  return data as MediaData<Movie | TVShow>
 }
 
 export const fetchSeasonDetails = async (
@@ -85,13 +109,11 @@ export const fetchSeasonDetails = async (
   return (await res.json()) as TVSeasonDeatail
 }
 
-export const fetchTrendingAnimeDay = async (
-  { pageParam }: PaginatedParameters = { pageParam: 1 }
-) => {
+export const fetchTrendingAnimeDay = async (page = 1) => {
   const res = await apolloClient.query({
     query: gql`
       query {
-        Page(page: ${pageParam}, perPage: 20) {
+        Page(page: ${page}, perPage: 20) {
           pageInfo {
             total # Total number of media entries
             currentPage # Current page number
@@ -122,7 +144,7 @@ export const fetchTrendingAnimeDay = async (
       overview: media.description,
       first_air_date: '2024-09-18',
       bannerImage: media.bannerImage,
-      coverImage: media.coverImage.extraLarge,
+      posterImage: media.coverImage.extraLarge,
       vote_average: media.averageScore ? media.averageScore / 10 : 0,
     }
   })
@@ -135,13 +157,11 @@ export const fetchTrendingAnimeDay = async (
   } as MediaData<Anime>
 }
 
-export const fetchTopRatedAnime = async (
-  { pageParam }: PaginatedParameters = { pageParam: 1 }
-) => {
+export const fetchTopRatedAnime = async (page = 1) => {
   const res = await apolloClient.query({
     query: gql`
       query {
-        Page(page: ${pageParam}, perPage: 20) {
+        Page(page: ${page}, perPage: 20) {
           pageInfo {
             total # Total number of media entries
             currentPage # Current page number
@@ -163,29 +183,27 @@ export const fetchTopRatedAnime = async (
       }
     `,
     fetchPolicy: 'no-cache',
-  });
+  })
 
   const results: Anime[] = res.data.Page.media.map((media: any) => {
     return {
       id: media.id,
       title: media.title.english,
       overview: media.description,
-      first_air_date: '2024-09-18',  // You can replace this with actual air date if available
+      first_air_date: '2024-09-18', // You can replace this with actual air date if available
       bannerImage: media.bannerImage,
       coverImage: media.coverImage.extraLarge,
       vote_average: media.averageScore ? media.averageScore / 10 : 0,
-    };
-  });
+    }
+  })
 
   return {
     page: res.data.Page.pageInfo.currentPage,
     results,
     total_pages: res.data.Page.pageInfo.lastPage,
     total_results: res.data.Page.pageInfo.total,
-  } as MediaData<Anime>;
-};
-
-
+  } as MediaData<Anime>
+}
 
 export const fetchAnimeTrailerById = async (id: number) => {
   const res = await apolloClient.query({
@@ -203,13 +221,85 @@ export const fetchAnimeTrailerById = async (id: number) => {
       id,
     },
     fetchPolicy: 'no-cache',
-  });
+  })
 
   const result = {
     id: res.data.Media.trailer.id,
     site: res.data.Media.trailer.site,
     key: res.data.Media.trailer.id,
   } as Trailer
+
+  return result
+}
+
+export const fetchTrailer = async (id: number, type: MediaType) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/${type.toLowerCase()}/${id}/videos?api_key=${
+      process.env.TMDB_API_KEY
+    }`,
+    {
+      next: {
+        tags: ['trailer', `${type}`, `${id}`],
+        revalidate: 60 * 5,
+      },
+    }
+  )
+  const data = await res.json()
+  console.log('Sanchit', data)
+  const videos = data.results
+  // console.log(videos)
+  let trailer = null
+  if (videos) {
+    trailer = videos.find((video: any) => video.type === 'Trailer')
+    if (!trailer) {
+      trailer = videos[0]
+    }
+  }
+
+  return trailer as Trailer
+}
+
+export const fetchAnimeById = async (id: number) => {
+  const res = await apolloClient.query({
+    query: gql`
+      query ($id: Int) {
+        Media(id: $id, type: ANIME){
+            id
+            title {
+              english
+            }
+            description
+            coverImage {
+              extraLarge
+            }
+            bannerImage
+            averageScore
+            episodes
+            streamingEpisodes {
+              title
+              thumbnail
+            }
+          }
+        }
+    `,
+    variables: { id: id },
+    fetchPolicy: 'no-cache',
+  })
+
+
+  const result: Anime = {
+    id: res.data.Media.id,
+    title: res.data.Media.title.english,
+    episodes: res.data.Media.episodes,
+    streamingEpisodes: res.data.Media.streamingEpisodes,
+    overview: res.data.Media.description,
+    first_air_date: '2024-09-18',
+    bannerImage: res.data.Media.bannerImage,
+    posterImage: res.data.Media.coverImage.extraLarge,
+    vote_average: res.data.Media.averageScore ? res.data.Media.averageScore / 10 : 0,
+  }
+
+  console.dir(result, { depth: null })
 
   return result
 }

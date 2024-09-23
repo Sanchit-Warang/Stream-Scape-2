@@ -1,12 +1,17 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
-import { fetchTrailer } from '@/api/tmdb'
+import { fetchTrailer, fetchAnimeTrailerById } from '@/server/data/tmdb'
 import { MediaType } from '@/types'
 
 const useGetTrailer = (id: number, type: MediaType) => {
   return useQuery({
     queryKey: ['trailer', type, id],
-    queryFn: () => fetchTrailer(id, type),
+    queryFn: () => {
+      if (type === 'TV' || type === 'Movie') {
+        return fetchTrailer(id, type)
+      }
+      return fetchAnimeTrailerById(id)
+    },
   })
 }
 

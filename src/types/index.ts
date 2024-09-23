@@ -18,6 +18,12 @@ interface Movie extends CommonMediaProperties {
   video: boolean
 }
 
+export interface AnimeEpisode {
+  title: string
+  thumbnail: string
+
+}
+
 interface TVShow extends CommonMediaProperties {
   origin_country: string[]
   original_name: string
@@ -33,6 +39,8 @@ export interface Anime {
   first_air_date: string
   overview: string
   vote_average: number
+  episodes?: number
+  streamingEpisodes?: AnimeEpisode[]
 }
 
 export type MediaType = 'Movie' | 'TV' | 'Anime'

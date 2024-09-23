@@ -11,8 +11,8 @@ const MoviePage = async ({ params }: { params: { movieid: string } }) => {
     <>
       <VideoPlayer
         url={`/embed/movie/${movie.id}`}
-        backdrop_path={movie.backdrop_path}
-        poster_path={movie.poster_path}
+        backdrop_path={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+        poster_path={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
         tmdbId={movie.id}
         type='movie'
       />

@@ -14,10 +14,10 @@ export default async function Home() {
       <Banner />
       <div className="space-y-3">
         <TrendingMoviesCarousel />
-        <TopRatedMoviesCarousel />
-        <TrendingTVCarousel />
-        <TopRatedTVCarousel />
+        <TrendingTVCarousel />  
         <TrendingAnimeCarousel/>
+        <TopRatedMoviesCarousel />
+        <TopRatedTVCarousel />        
         <TopRatedAnimeCarousel/>
       </div>
     </div>

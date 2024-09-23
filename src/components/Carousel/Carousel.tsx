@@ -6,16 +6,17 @@ import { Button, CircularProgress } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useRef, useEffect } from 'react'
-import { fetchTrendingAnimeDay, fetchTopRatedAnime } from '@/server/data/tmdb'
+import {
+  fetchTrendingAnimeDay,
+  fetchTopRatedAnime,
+  fetchTopRatedMovies,
+  fetchTrendingMoviesDay,
+  fetchTrendingTVDay,
+  fetchTopRatedTVShows,
+} from '@/server/data/tmdb'
 //new import
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useInViewport } from '@mantine/hooks'
-import {
-  fetchPaginatedTopRatedMovies,
-  fetchPaginatedTrendingMoviesDay,
-  fetchPaginatedTrendingTVDay,
-  fetchPaginatedTopRatedTVShows,
-} from '@/api/tmdb'
 import { PaginatedParameters } from '@/types'
 
 type CarousalProps = {
@@ -34,11 +35,11 @@ type Category =
   | 'top_rated_anime'
 
 const functions = {
-  trending_movie_day: fetchPaginatedTrendingMoviesDay,
-  trending_tv_day: fetchPaginatedTrendingTVDay,
+  trending_movie_day: fetchTrendingMoviesDay,
+  trending_tv_day: fetchTrendingTVDay,
   trending_anime_day: fetchTrendingAnimeDay,
-  top_rated_movie: fetchPaginatedTopRatedMovies,
-  top_rated_tv: fetchPaginatedTopRatedTVShows,
+  top_rated_movie: fetchTopRatedMovies,
+  top_rated_tv: fetchTopRatedTVShows,
   top_rated_anime: fetchTopRatedAnime,
 }
 
@@ -74,8 +75,8 @@ const Carousel = ({
   //nre Code
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey,
-    queryFn: async ({ pageParam = 1 }: PaginatedParameters) =>
-      await functions[category]({ pageParam }),
+    queryFn: async ({ pageParam }: PaginatedParameters) =>
+      await functions[category](pageParam),
     initialPageParam: 2,
     getNextPageParam: (lastPage) => {
       if (lastPage.page === lastPage.total_pages) return null

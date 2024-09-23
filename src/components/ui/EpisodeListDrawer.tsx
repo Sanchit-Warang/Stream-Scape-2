@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@nextui-org/react'
 import { motion, useAnimate } from 'framer-motion'
-import { TVSeasonDeatail } from '@/types'
+import { AnimeEpisode, TVSeasonDeatail } from '@/types'
 import EpisodeList from './EpisodeList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTable, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
@@ -10,10 +10,12 @@ import { useState } from 'react'
 
 type EpisodeListDrawerProps = {
   name: string
-  seasonList: TVSeasonDeatail[]
+  seasonList?: TVSeasonDeatail[]
+  animeEpisodeList?: AnimeEpisode[]
+  totalAnimeEpisodes?: number
 }
 
-const EpisodeListDrawer = ({ name, seasonList }: EpisodeListDrawerProps) => {
+const EpisodeListDrawer = ({ name, seasonList, animeEpisodeList, totalAnimeEpisodes }: EpisodeListDrawerProps) => {
   const [scope, animate] = useAnimate()
   const [isOpen, setIsOpen] = useState(false)
   const ref = useClickOutside(() => {
@@ -44,7 +46,7 @@ const EpisodeListDrawer = ({ name, seasonList }: EpisodeListDrawerProps) => {
       <div
         ref={scope}
         id="drawerContainer"
-        className="fixed bottom-0 h-[70vh] z-50 flex"
+        className="fixed bottom-0 h-[50vh] md:h-[70vh] z-50 flex"
       >
         <motion.div
           initial={{
@@ -66,7 +68,8 @@ const EpisodeListDrawer = ({ name, seasonList }: EpisodeListDrawerProps) => {
                 <FontAwesomeIcon icon={faArrowLeft} />
               </Button>
             </div>
-            <EpisodeList seasonList={seasonList} />
+            {seasonList ? <EpisodeList seasonList={seasonList} /> : null}
+            {animeEpisodeList? <EpisodeList animeEpisodeList={animeEpisodeList} totalAnimeEpisodes={totalAnimeEpisodes} /> : null}
           </div>
         </motion.div>
         <Button

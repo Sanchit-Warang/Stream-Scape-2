@@ -20,7 +20,7 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
       case 'TV':
         return <TvShowWatchButton tvid={entry.id} />
       case 'Anime':
-        return <PlayButton to={`/anime/${entry.id}`} size="sm" />
+        return <PlayButton to={`/anime/${entry.id}/1/0`} size="sm" />
     }
   }
 
@@ -58,7 +58,7 @@ const TrailerModal = ({ className, entry, ...props }: TrailerModalProps) => {
                   </span>
                 </div>
                 <p
-                  className="text-xs text-copy-lighter"
+                  className="text-xs text-copy-lighter overflow-y-auto max-h-[20vh] !scroll-smooth scrollbar-track-primary-200 scrollbar-thin scrollbar-thumb-primary"
                   dangerouslySetInnerHTML={{ __html: entry.overview }}
                 >
                 </p>
