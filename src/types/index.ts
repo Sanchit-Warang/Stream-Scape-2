@@ -40,6 +40,7 @@ export interface Anime {
   overview: string
   vote_average: number
   episodes?: number
+  relationType?: string
   streamingEpisodes?: AnimeEpisode[]
 }
 

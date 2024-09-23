@@ -1,22 +1,25 @@
 'use client'
 import { Tabs, Tab } from '@nextui-org/react'
 import { cn } from '@/utils/tw'
-import { TVSeasonDeatail, AnimeEpisode } from '@/types'
+import { TVSeasonDeatail, AnimeEpisode, Anime } from '@/types'
 import { motion } from 'framer-motion'
 import EpisodeCarousel from '../EpisodeCarousel'
 import { useState } from 'react'
 import { useParams } from 'next/navigation'
+import RelatedAnimeCarousel from '../RelatedAnimeCarousel'
 
 type EpisodeListProps = {
   seasonList?: TVSeasonDeatail[]
   animeEpisodeList?: AnimeEpisode[]
   totalAnimeEpisodes?: number
+  relatedAnime?: Anime[]
 } & React.HTMLAttributes<HTMLDivElement>
 const EpisodeList = ({
   className,
   seasonList,
   animeEpisodeList,
   totalAnimeEpisodes,
+  relatedAnime,
   ...props
 }: EpisodeListProps) => {
   const { season } = useParams()
@@ -58,7 +61,22 @@ const EpisodeList = ({
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <EpisodeCarousel episodes={animeEpisodeList} totalAnimeEpisodes={totalAnimeEpisodes} />
+              <EpisodeCarousel
+                episodes={animeEpisodeList}
+                totalAnimeEpisodes={totalAnimeEpisodes}
+              />
+            </motion.div>
+          </Tab>
+        )}
+        {relatedAnime && (
+          <Tab title="Related Anime">
+            <motion.div
+              className="mx-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {<RelatedAnimeCarousel relatedAnime={relatedAnime} />}
             </motion.div>
           </Tab>
         )}

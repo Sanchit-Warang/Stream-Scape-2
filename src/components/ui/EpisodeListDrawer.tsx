@@ -1,25 +1,32 @@
 'use client'
 import { Button } from '@nextui-org/react'
 import { motion, useAnimate } from 'framer-motion'
-import { AnimeEpisode, TVSeasonDeatail } from '@/types'
+import { AnimeEpisode, TVSeasonDeatail, Anime } from '@/types'
 import EpisodeList from './EpisodeList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTable, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { useClickOutside } from '@mantine/hooks';
+import { useClickOutside } from '@mantine/hooks'
 import { useState } from 'react'
 
 type EpisodeListDrawerProps = {
   name: string
   seasonList?: TVSeasonDeatail[]
   animeEpisodeList?: AnimeEpisode[]
+  relatedAnime?: Anime[]
   totalAnimeEpisodes?: number
 }
 
-const EpisodeListDrawer = ({ name, seasonList, animeEpisodeList, totalAnimeEpisodes }: EpisodeListDrawerProps) => {
+const EpisodeListDrawer = ({
+  name,
+  seasonList,
+  animeEpisodeList,
+  relatedAnime,
+  totalAnimeEpisodes,
+}: EpisodeListDrawerProps) => {
   const [scope, animate] = useAnimate()
   const [isOpen, setIsOpen] = useState(false)
   const ref = useClickOutside(() => {
-    if(isOpen){
+    if (isOpen) {
       CloseAnimate()
     }
   })
@@ -69,7 +76,13 @@ const EpisodeListDrawer = ({ name, seasonList, animeEpisodeList, totalAnimeEpiso
               </Button>
             </div>
             {seasonList ? <EpisodeList seasonList={seasonList} /> : null}
-            {animeEpisodeList? <EpisodeList animeEpisodeList={animeEpisodeList} totalAnimeEpisodes={totalAnimeEpisodes} /> : null}
+            {animeEpisodeList ? (
+              <EpisodeList
+                animeEpisodeList={animeEpisodeList}
+                totalAnimeEpisodes={totalAnimeEpisodes}
+                relatedAnime={relatedAnime}
+              />
+            ) : null}
           </div>
         </motion.div>
         <Button

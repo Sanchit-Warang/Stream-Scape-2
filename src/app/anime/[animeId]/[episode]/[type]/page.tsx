@@ -1,11 +1,9 @@
 import VideoPlayer from '@/components/ui/VideoPlayer'
-import { fetchTVShowById, fetchSeasonDetails } from '@/server/data/tmdb'
+import {  fetchAnimeRelations } from '@/server/data/tmdb'
 import { Image } from '@nextui-org/image'
 import { Card } from '@nextui-org/card'
-import { Chip } from '@nextui-org/chip'
 import EpisodeListDrawer from '@/components/ui/EpisodeListDrawer'
 import NextImage from 'next/image'
-import { TVSeasonDeatail } from '@/types'
 import { fetchAnimeById } from '@/server/data/tmdb'
 
 const AnimePage = async ({
@@ -14,6 +12,8 @@ const AnimePage = async ({
   params: { animeId: string; episode: string; type: string }
 }) => {
   const anime = await fetchAnimeById(+params.animeId)
+
+  const relationAnime = await fetchAnimeRelations(+params.animeId)
 
   if (!anime.episodes || !anime.streamingEpisodes) {
     return (
@@ -36,6 +36,7 @@ const AnimePage = async ({
         name={anime.title}
         animeEpisodeList={anime.streamingEpisodes}
         totalAnimeEpisodes={anime.episodes}
+        relatedAnime={relationAnime}
       />
       <VideoPlayer
         url={`/embed/anime/${params.animeId}/${params.episode}/${subdub}`}

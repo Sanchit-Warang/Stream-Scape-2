@@ -245,9 +245,7 @@ export const fetchTrailer = async (id: number, type: MediaType) => {
     }
   )
   const data = await res.json()
-  console.log('Sanchit', data)
   const videos = data.results
-  // console.log(videos)
   let trailer = null
   if (videos) {
     trailer = videos.find((video: any) => video.type === 'Trailer')
@@ -263,29 +261,28 @@ export const fetchAnimeById = async (id: number) => {
   const res = await apolloClient.query({
     query: gql`
       query ($id: Int) {
-        Media(id: $id, type: ANIME){
-            id
-            title {
-              english
-            }
-            description
-            coverImage {
-              extraLarge
-            }
-            bannerImage
-            averageScore
-            episodes
-            streamingEpisodes {
-              title
-              thumbnail
-            }
+        Media(id: $id, type: ANIME) {
+          id
+          title {
+            english
+          }
+          description
+          coverImage {
+            extraLarge
+          }
+          bannerImage
+          averageScore
+          episodes
+          streamingEpisodes {
+            title
+            thumbnail
           }
         }
+      }
     `,
     variables: { id: id },
     fetchPolicy: 'no-cache',
   })
-
 
   const result: Anime = {
     id: res.data.Media.id,
@@ -296,10 +293,59 @@ export const fetchAnimeById = async (id: number) => {
     first_air_date: '2024-09-18',
     bannerImage: res.data.Media.bannerImage,
     posterImage: res.data.Media.coverImage.extraLarge,
-    vote_average: res.data.Media.averageScore ? res.data.Media.averageScore / 10 : 0,
+    vote_average: res.data.Media.averageScore
+      ? res.data.Media.averageScore / 10
+      : 0,
   }
 
-  console.dir(result, { depth: null })
 
   return result
+}
+
+export const fetchAnimeRelations = async (id: number) => {
+  const res = await apolloClient.query({
+    query: gql`
+      query ($id: Int) {
+        Media(id: $id, type: ANIME) {
+          id
+          relations {
+            edges {
+              node {
+                id
+                title {
+                  english
+                }
+                coverImage {
+                  extraLarge
+                }
+                type
+                averageScore
+              }
+              relationType
+            }
+          }
+        }
+      }
+    `,
+    variables: { id: id },
+    fetchPolicy: 'no-cache',
+  })
+
+  
+
+  const filteredResults: Anime[] = res.data.Media.relations.edges
+    .filter((edge: any) => edge.node.type === 'ANIME')
+    .map((edge: any) => {
+      return {
+        id: edge.node.id,
+        title: edge.node.title.english,
+        posterImage: edge.node.coverImage.extraLarge,
+        relationType: edge.relationType,
+        vote_average: edge.node.averageScore ? edge.node.averageScore / 10 : 0,
+      }
+    })
+
+  console.dir(filteredResults, { depth: null })
+
+  return filteredResults
 }
