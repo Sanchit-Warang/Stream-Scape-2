@@ -26,7 +26,7 @@ const AnimePage = async ({
   const subdub = params.type === '0' || params.type === '1' ? params.type : '0' 
 
   const image =
-    anime.streamingEpisodes.length > 0
+    anime.streamingEpisodes?.length > 0
       ? anime.streamingEpisodes[+params.episode - 1].thumbnail
       : ''
 
