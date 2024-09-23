@@ -10,6 +10,7 @@ import {
 } from '@/hooks/watchHistory'
 import { useSession } from 'next-auth/react'
 import { Tabs, Tab } from '@nextui-org/react'
+import { useParams } from 'next/navigation'
 
 type VideoPlayerPropsBase = {
   url: string
@@ -61,6 +62,10 @@ const VideoPlayer = ({
     bgimage = ''
   }
 
+  const params = useParams()
+
+  const subdub = params.type === '1' || params.type === '0' ? params.type : '0'
+
   const onPlayButtonClick = async () => {
     setShowPlayer(true)
     if (type === 'movie') {
@@ -108,24 +113,41 @@ const VideoPlayer = ({
           />
         )}
       </div>
-      <div className="w-full flex justify-center">
-        <Tabs
-          aria-label="Options"
-          className="my-5"
-          size="lg"
-          color="primary"
-          selectedKey={selected}
-          onSelectionChange={setSelected}
-        >
-          <Tab
-            key={`${process.env.NEXT_PUBLIC_STREAM_URL_1}`}
-            title="Server 1"
-          ></Tab>
-          <Tab
-            key={`${process.env.NEXT_PUBLIC_STREAM_URL_2}`}
-            title="Server 2"
-          ></Tab>
-        </Tabs>
+      <div className="w-full flex justify-center gap-2">
+        {type === 'tv' || type === 'movie' ? (
+          <Tabs
+            aria-label="Options"
+            className="my-5"
+            size="lg"
+            color="primary"
+            selectedKey={selected}
+            onSelectionChange={setSelected}
+          >
+            <Tab
+              key={`${process.env.NEXT_PUBLIC_STREAM_URL_1}`}
+              title="Server 1"
+            ></Tab>
+            <Tab
+              key={`${process.env.NEXT_PUBLIC_STREAM_URL_2}`}
+              title="Server 2"
+            ></Tab>
+          </Tabs>
+        ) : (
+          <Tabs
+            aria-label="Options"
+            className="my-5"
+            size="lg"
+            color="success"
+            selectedKey={subdub}
+          >
+            <Tab
+              key={`0`}
+              title="Sub"
+              href={`/anime/${params.animeId}/${params.episode}/0`}
+            ></Tab>
+            <Tab key={`1`} title="Dub" href={`/anime/${params.animeId}/${params.episode}/1`}></Tab>
+          </Tabs>
+        )}
       </div>
     </>
   )
